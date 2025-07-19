@@ -3,15 +3,12 @@ package net.javaguides.sms.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import jakarta.validation.Valid;
 import net.javaguides.sms.dto.StudentDto;
-import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.service.StudentService;
 
 @Controller
@@ -40,7 +37,7 @@ public class StudentController {
 	public String createStudentForm(Model model){
 		
 		//create student object to hold student form data
-		Student student = new Student();
+		StudentDto student = new StudentDto();
 		model.addAttribute("student", student);
 		return "create_student";
 	}
@@ -48,11 +45,8 @@ public class StudentController {
 	//Save student after form submission
 	
 	@PostMapping("/students")
-	public String saveStudent(@ModelAttribute("student") @Valid StudentDto studentDto,
-			                    BindingResult result) {
-		if(result.hasErrors()) {
-			return "create_student";
-		}
+	public String saveStudent(@ModelAttribute("student") StudentDto studentDto) {
+		
 		studentService.saveStudent(studentDto);
 		return "redirect:/students";
 		
@@ -71,12 +65,8 @@ public class StudentController {
 	
 	@PostMapping("/students/{id}" )
 	public String updateStudent(@PathVariable Long id,
-			                    @ModelAttribute("student") @Valid StudentDto studentDto,
-	                            BindingResult result) {
-		if(result.hasErrors()) {
-			return "edit_student";
-		}
-	
+			                    @ModelAttribute("student") StudentDto studentDto) {
+		
 	   //save updated student object
 		studentService.updateStudent(id, studentDto);
         return "redirect:/students";	
