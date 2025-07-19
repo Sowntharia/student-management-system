@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.service.StudentService;
@@ -81,4 +82,11 @@ public class StudentController {
 		return "redirect:/students";
 		
 	}
+	
+	// REST API to get student by ID (for testing purposes)
+	@GetMapping("/students/{id}")
+	public @ResponseBody StudentDto getStudentById(@PathVariable Long id) {
+	    return studentService.getStudentById(id);
+	}
+
 }
