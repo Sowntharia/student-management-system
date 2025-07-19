@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Student Management System</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+    crossorigin="anonymous">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Student Management System</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/students}">Student Management</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+     <div class ="container mt-4">
+          <h2>List Students</h2>
+    <div class = "row mb-3">
+         <div class = "col-lg-3">
+         <a th:href = "@{/students/new}" class = "btn btn-primary btn-success mt-4" id="addStudentBtn"> Add Student</a>
+         </div>
+     </div>
+     
+     
+     <table id="studentTable" class = "table table-striped table-bordered">
+     <thead class = "table-dark">
+        <tr>
+            <th>Student First Name</th>
+            <th>Student Last Name</th>
+            <th>Student Email</th>
+            <th style="width: 200px;">Action</th>
+        </tr>
+     </thead>
+     <tbody>
+           <tr th:each = "student: ${students}">
+               <td th:text = "${student.firstName}"></td>
+               <td th:text = "${student.lastName}"></td>
+               <td th:text = "${student.email}"></td>
+               <td>
+                         <!-- Added class="edit-button" for Selenium -->
+               
+                  <a th:href = "@{/students/edit/{id}(id=${student.id})}"
+                  class = "btn btn-primary edit-button">Update</a>
+                  
+                                   <!-- ✅ Added class="delete-form" for Selenium -->
+                         
+				  <form th:action="@{/students/{id}/delete(id=${student.id})}" 
+				  method="post" class="delete-form d-inline">
+					<button type="submit" class="btn btn-danger"
+					        onclick="return confirm('Are you sure you want to delete this student?')">
+							Delete
+					</button>
+					
+				  </form>
+               </td>
+           </tr>
+     </tbody>
+     
+     </table>
+   </div>
+
+</body>
+</html>
