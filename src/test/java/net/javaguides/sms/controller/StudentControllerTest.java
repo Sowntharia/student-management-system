@@ -1,6 +1,5 @@
 package net.javaguides.sms.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -118,16 +117,20 @@ public class StudentControllerTest {
 	}
 	
 	@Test
-	void shouldReturnCreateStudentViewName() {
-		String view = studentController.saveStudent(studentDto, null);
-		assertEquals("create_student", view);
+	void shouldReturnCreateStudentViewName() throws Exception {
+		mockMvc.perform(get("/students/new"))
+		     .andExpect(status().isOk())
+		     .andExpect(view().name("create_student"));
 	}
 	
 	@Test
-	void shouldReturnEditStudentViewName() {
+	void shouldReturnEditStudentViewName() throws Exception {
 		given(studentService.getStudentById(1L)).willReturn(studentDto);
-		String view = studentController.updateStudent(1L, studentDto, null);
-		assertEquals("edit_student", view);
+		
+		mockMvc.perform(get("/students/edit/1"))
+	     .andExpect(status().isOk())
+	     .andExpect(view().name("edit_student"));
+		
 	}
 	
 	
