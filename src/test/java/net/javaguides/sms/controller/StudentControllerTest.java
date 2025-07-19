@@ -1,5 +1,6 @@
 package net.javaguides.sms.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -116,6 +117,18 @@ public class StudentControllerTest {
 		verify(studentService).deleteStudentById(1L);
 	}
 	
+	@Test
+	void shouldReturnCreateStudentViewName() {
+		String view = studentController.saveStudent(studentDto, null);
+		assertEquals("create_student", view);
+	}
+	
+	@Test
+	void shouldReturnEditStudentViewName() {
+		given(studentService.getStudentById(1L)).willReturn(studentDto);
+		String view = studentController.updateStudent(1L, studentDto, null);
+		assertEquals("edit_student", view);
+	}
 	
 	
 }
