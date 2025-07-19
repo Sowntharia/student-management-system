@@ -1,5 +1,7 @@
 package net.javaguides.sms.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -131,6 +133,20 @@ public class StudentControllerTest {
 	     .andExpect(status().isOk())
 	     .andExpect(view().name("edit_student"));
 		
+	}
+	
+	@Test
+	void shouldReturnCorrectStudentFromGetStudentById() {
+	    given(studentService.getStudentById(1L)).willReturn(studentDto);
+
+	    StudentDto result = studentController.getStudentById(1L);
+
+	    assertNotNull(result);
+	    assertEquals("John", result.getFirstName());
+	    assertEquals("Doe", result.getLastName());
+	    assertEquals("john@example.com", result.getEmail());
+
+	    verify(studentService).getStudentById(1L);
 	}
 	
 	
