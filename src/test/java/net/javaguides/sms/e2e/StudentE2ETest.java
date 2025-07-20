@@ -35,17 +35,7 @@ public class StudentE2ETest {
 	@BeforeAll
 	public static void setup() {
 		WebDriverManager.chromedriver().setup();
-		
 		ChromeOptions options = new ChromeOptions();
-		 options.addArguments("--headless=new"); // Use headless mode (updated for Chrome 109+)
-		 options.addArguments("--disable-gpu");
-		 options.addArguments("--no-sandbox");
-		 options.addArguments("--disable-dev-shm-usage");
-		 options.addArguments("--remote-allow-origins=*");
-
-		    // Avoid Chrome user-data-dir conflicts
-		 options.addArguments("--user-data-dir=/tmp/chrome-profile-" + System.currentTimeMillis());
-
 		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));

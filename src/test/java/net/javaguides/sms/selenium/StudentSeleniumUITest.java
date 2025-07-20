@@ -17,7 +17,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.test.context.ActiveProfiles;
@@ -34,17 +33,7 @@ public class StudentSeleniumUITest {
 	@BeforeEach
 	void setUp() {
 		WebDriverManager.chromedriver().setup();
-		
-		ChromeOptions options = new ChromeOptions();
-	    options.addArguments("--headless=new"); // For headless environments like CI
-	    options.addArguments("--disable-gpu");
-	    options.addArguments("--no-sandbox");
-	    options.addArguments("--disable-dev-shm-usage");
-		
-	 // Unique temporary user-data-dir
-	    options.addArguments("--user-data-dir=/tmp/chrome-profile-" + System.currentTimeMillis());
-	    
-		driver = new ChromeDriver(options);
+		driver = new ChromeDriver();
 		driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		driver.get("http://localhost:8080/students");
@@ -108,24 +97,16 @@ public class StudentSeleniumUITest {
 	@Test
 	@Order(3)
 	void testDeleteStudent() {
-		driver.findElement(By.linkText("Add Student")).click();
-
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("firstName")));
-		driver.findElement(By.name("firstName")).sendKeys("Delete");
-		driver.findElement(By.name("lastName")).sendKeys("Me");
-		driver.findElement(By.name("email")).sendKeys("delete@example.com");
-		driver.findElement(By.cssSelector("button[type='submit']")).click();
-
-		wait.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "delete@example.com"));
-
+		
 		driver.get("http://localhost:8080/students");
 
 		WebElement row = wait.until(ExpectedConditions.presenceOfElementLocated(
-			By.xpath("//tr[td[contains(text(),'delete@example.com')]]")));
+				By.xpath("//tr[td[contains(text(),'Test') or contains(text(),'Updated')]]")));
 
 		WebElement deleteButton = row.findElement(By.cssSelector("form.delete-form button[type='submit']"));
 		deleteButton.click();
 
+		// Accept confirmation alert
 		try {
 			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 			alert.accept();
@@ -133,12 +114,21 @@ public class StudentSeleniumUITest {
 			System.out.println("No alert appeared.");
 		}
 
-		driver.navigate().refresh();
+		// Wait for page to reload after deletion
+		wait.until(ExpectedConditions.invisibilityOf(row));
 
+		// Reload the students page explicitly
+		driver.get("http://localhost:8080/students");
+
+		// Verify the student no longer exists in table
 		String page = driver.getPageSource();
-		assertFalse(page.contains("delete@example.com"), "Deleted student still present in table!");
+		assertFalse(
+			page.contains("testuser@example.com") || 
+			page.contains("Updated") || 
+			page.contains("Test"),
+			"Deleted student info still present in table!"
+		);
 	}
-
 	
 	
 }
