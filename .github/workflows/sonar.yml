@@ -1,0 +1,49 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+     branches:
+       -main
+  pull_request:
+     types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+     name: Build and Analysis on SonarCloud
+     runs-on: ubuntu-latest
+
+     steps:
+        -users: actions/checkout@v4 
+
+        -name: Set up JDK 17
+         uses: actions/setup-java@v4
+         with:
+            java-version: '17'
+            distribution: 'temurin'   
+        -name: Cache SonarCloud packages
+          uses: actions/cache@v3
+          with:
+           path: ~/.sonar/cache
+           key: ${{ runner.os }}-sonar
+           restore-keys: ${{ runner.os }}-sonar
+
+        -name: Cache Maven packages
+          uses: actions/cache@v3
+          with:
+           path: |
+            ~/.m2/repository
+            !~/.m2/repository/org/apache/maven/plugins/maven-surefire-plugin
+           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+           restore-keys: ${{ runner.os }}-maven 
+          - name: Build with Maven
+        run: mvn clean verify -DskipTests=false
+
+        -name: SonarCloud Scan
+           uses: SonarSource/sonarcloud-github-action@v2
+           with:
+             projectBaseDir: .
+            env:
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              SONAR_PROJECT_KEY: Sowntharia_student-management-system
+              SONAR_ORGANIZATION: sowntharia  
+        
