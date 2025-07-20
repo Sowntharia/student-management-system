@@ -17,6 +17,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.test.context.ActiveProfiles;
@@ -33,7 +34,17 @@ public class StudentSeleniumUITest {
 	@BeforeEach
 	void setUp() {
 		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();
+		
+		ChromeOptions options = new ChromeOptions();
+	    options.addArguments("--headless=new"); // For headless environments like CI
+	    options.addArguments("--disable-gpu");
+	    options.addArguments("--no-sandbox");
+	    options.addArguments("--disable-dev-shm-usage");
+		
+	 // Unique temporary user-data-dir
+	    options.addArguments("--user-data-dir=/tmp/chrome-profile-" + System.currentTimeMillis());
+	    
+		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		driver.get("http://localhost:8080/students");
