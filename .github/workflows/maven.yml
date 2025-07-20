@@ -1,0 +1,35 @@
+name: Maven CI for Spring Boot + Selenium
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Build project (skip tests)
+        run: mvn clean install -DskipTests
+
+      - name: Start Spring Boot App with test profile
+        run: |
+          nohup mvn spring-boot:run -Dspring-boot.run.profiles=test > target/app.log 2>&1 &
+          sleep 25
+
+      - name: Run Selenium and E2E Tests
+        run: mvn test -Dspring.profiles.active=test
