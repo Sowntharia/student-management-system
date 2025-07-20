@@ -19,9 +19,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.test.context.ActiveProfiles;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StudentSeleniumUITest {
 
@@ -95,16 +97,24 @@ public class StudentSeleniumUITest {
 	@Test
 	@Order(3)
 	void testDeleteStudent() {
-		
+		driver.findElement(By.linkText("Add Student")).click();
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("firstName")));
+		driver.findElement(By.name("firstName")).sendKeys("Delete");
+		driver.findElement(By.name("lastName")).sendKeys("Me");
+		driver.findElement(By.name("email")).sendKeys("delete@example.com");
+		driver.findElement(By.cssSelector("button[type='submit']")).click();
+
+		wait.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "delete@example.com"));
+
 		driver.get("http://localhost:8080/students");
 
 		WebElement row = wait.until(ExpectedConditions.presenceOfElementLocated(
-				By.xpath("//tr[td[contains(text(),'Test') or contains(text(),'Updated')]]")));
+			By.xpath("//tr[td[contains(text(),'delete@example.com')]]")));
 
 		WebElement deleteButton = row.findElement(By.cssSelector("form.delete-form button[type='submit']"));
 		deleteButton.click();
 
-		// Accept confirmation alert
 		try {
 			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 			alert.accept();
@@ -112,21 +122,12 @@ public class StudentSeleniumUITest {
 			System.out.println("No alert appeared.");
 		}
 
-		// Wait for page to reload after deletion
-		wait.until(ExpectedConditions.invisibilityOf(row));
+		driver.navigate().refresh();
 
-		// Reload the students page explicitly
-		driver.get("http://localhost:8080/students");
-
-		// Verify the student no longer exists in table
 		String page = driver.getPageSource();
-		assertFalse(
-			page.contains("testuser@example.com") || 
-			page.contains("Updated") || 
-			page.contains("Test"),
-			"Deleted student info still present in table!"
-		);
+		assertFalse(page.contains("delete@example.com"), "Deleted student still present in table!");
 	}
+
 	
 	
 }

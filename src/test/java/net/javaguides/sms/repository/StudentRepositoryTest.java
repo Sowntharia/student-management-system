@@ -7,9 +7,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import net.javaguides.sms.entity.Student;
 
+@ActiveProfiles("test")
 @SpringBootTest
 public class StudentRepositoryTest {
 	@Autowired

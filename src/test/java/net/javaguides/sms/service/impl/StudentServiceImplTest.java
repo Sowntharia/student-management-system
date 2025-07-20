@@ -17,11 +17,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ActiveProfiles;
 
 import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.exception.StudentNotFoundException;
 import net.javaguides.sms.repository.StudentRepository;
+
+@ActiveProfiles("test")
 
 public class StudentServiceImplTest {
 

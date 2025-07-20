@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.service.StudentService;
 
+@ActiveProfiles("test")
 public class StudentControllerTest {
     
 	@Mock
