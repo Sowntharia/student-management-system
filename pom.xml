@@ -226,7 +226,6 @@
                     </targetTests>
                     <excludedClasses>
 						<param>net.javaguides.sms.StudentWebControllerE2ETest</param>
-						<param>net.javaguides.sms.StudentSeleniumUITest</param>
 					</excludedClasses>
                     <outputFormats>
 						<param>HTML</param>
@@ -260,7 +259,6 @@
 								<include>**/*IntegrationTest.java</include>
 								<include>**/*IT.java</include>
                                 <include>**/*E2ETest.java</include>
-                                <include>**/*SeleniumUITest.java</include>
                             </includes>
                         </configuration>
                     </execution>
