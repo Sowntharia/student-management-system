@@ -13,12 +13,12 @@ import net.javaguides.sms.entity.Student;
 
 @ActiveProfiles("test")
 @SpringBootTest
-public class StudentRepositoryTest {
+class StudentRepositoryTest {
 	@Autowired
 	private StudentRepository studentRepository;
 	
 	@Test
-	public void testSaveStudent() {
+    void testSaveStudent() {
 		//Arrange
 		Student student = new Student("John", "Doe", "john@example.com");
 		
@@ -32,7 +32,7 @@ public class StudentRepositoryTest {
 	}
 	
 	@Test
-	public void testFindByFirstName() {
+    void testFindByFirstName() {
 		//Arrange
 		Student student1 = new Student("Alex", "Brown", "alex1@example.com");
 		Student student2 = new Student("Alex", "Smith", "alex2@example.com");

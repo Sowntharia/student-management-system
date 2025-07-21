@@ -16,6 +16,9 @@ import net.javaguides.sms.service.StudentService;
 public class StudentController {
 	
 	private StudentService studentService;
+	
+    private static final String REDIRECT_STUDENTS = "redirect:/students"; 
+
 
 	public StudentController(StudentService studentService) {
 		super();
@@ -49,7 +52,7 @@ public class StudentController {
 	public String saveStudent(@ModelAttribute("student") StudentDto studentDto) {
 		
 		studentService.saveStudent(studentDto);
-		return "redirect:/students";
+		return REDIRECT_STUDENTS;
 		
 	}
 	
@@ -70,7 +73,7 @@ public class StudentController {
 		
 	   //save updated student object
 		studentService.updateStudent(id, studentDto);
-        return "redirect:/students";	
+        return REDIRECT_STUDENTS;	
 		
 	}
 	
@@ -79,7 +82,7 @@ public class StudentController {
 	@PostMapping("/students/{id}/delete")
 	public String deleteStudent(@PathVariable Long id) {
 		studentService.deleteStudentById(id);
-		return "redirect:/students";
+		return REDIRECT_STUDENTS;
 		
 	}
 	

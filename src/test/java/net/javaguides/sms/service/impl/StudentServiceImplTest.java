@@ -26,7 +26,7 @@ import net.javaguides.sms.repository.StudentRepository;
 
 @ActiveProfiles("test")
 
-public class StudentServiceImplTest {
+class StudentServiceImplTest {
 
 	@Mock
 	private StudentRepository studentRepository;

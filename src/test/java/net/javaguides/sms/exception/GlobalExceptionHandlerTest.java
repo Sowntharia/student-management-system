@@ -21,7 +21,7 @@ import net.javaguides.sms.service.StudentService;
 @SuppressWarnings("removal")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GlobalExceptionHandlerTest {
+ class GlobalExceptionHandlerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	

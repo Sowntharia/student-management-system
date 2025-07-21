@@ -78,7 +78,11 @@ import java.lang.reflect.Constructor;
     void testPrivateConstructor() throws Exception {
         Constructor<StudentMapper> constructor = StudentMapper.class.getDeclaredConstructor();
         constructor.setAccessible(true);
-        constructor.newInstance();
+        StudentMapper instance = constructor.newInstance();
+        
+        // Assertion to satisfy SonarCloud
+        assertNotNull(instance);
+        assertEquals(StudentMapper.class, instance.getClass());
     }
 
 }

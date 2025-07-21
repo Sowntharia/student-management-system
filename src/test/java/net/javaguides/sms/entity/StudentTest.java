@@ -1,7 +1,6 @@
 package net.javaguides.sms.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -63,19 +62,19 @@ class StudentTest {
     @Test
     void testEqualsWithSameReference() {
         Student student = new Student("A", "B", "a@b.com");
-        assertTrue(student.equals(student)); // same reference
+        assertEquals(student, student); 
     }
 
     @Test
     void testEqualsWithDifferentType() {
         Student student = new Student("A", "B", "a@b.com");
-        assertFalse(student.equals("not a student")); // different type
+        assertNotEquals(student, "not a student"); 
     }
 
     @Test
     void testEqualsWithNull() {
         Student student = new Student("A", "B", "a@b.com");
-        assertFalse(student.equals(null)); // null case
+        assertNotEquals(student, null); 
     }
 
 }

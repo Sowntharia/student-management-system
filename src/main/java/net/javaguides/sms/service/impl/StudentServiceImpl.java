@@ -1,7 +1,6 @@
 package net.javaguides.sms.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,7 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepository.findAll()
 				.stream()
 				.map(StudentMapper::mapToDto)
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	@Override

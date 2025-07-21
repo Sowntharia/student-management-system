@@ -29,7 +29,7 @@ import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.service.StudentService;
 
 @ActiveProfiles("test")
-public class StudentControllerTest {
+ class StudentControllerTest {
     
 	@Mock
 	private StudentService studentService;

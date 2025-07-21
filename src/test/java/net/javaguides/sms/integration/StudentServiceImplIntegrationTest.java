@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class StudentServiceImplIntegrationTest {
+class StudentServiceImplIntegrationTest {
 
 	@Autowired
 	private StudentService studentService;
