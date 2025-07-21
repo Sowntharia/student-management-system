@@ -2,6 +2,8 @@ package net.javaguides.sms.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 
 import org.junit.jupiter.api.*;
@@ -29,21 +31,24 @@ public class StudentWebControllerE2ETest {
     private String baseUrl;
 
     @BeforeAll
-    static void setupClass() {
+    static void setupClass() throws Exception {
         WebDriverManager.chromedriver().setup();
-      
-        
         ChromeOptions options = new ChromeOptions();
 
-        // Detect if running in GitHub Actions CI (Linux)
+        // Detect if running in GitHub Actions CI (Linux headless)
         if (System.getenv("GITHUB_ACTIONS") != null) {
-            options.addArguments("--headless=new"); // use --headless=new for Chrome >=109
+            options.addArguments("--headless=new"); // required for Chrome 109+
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--disable-gpu");
+
+            // Isolated Chrome profile avoids CI crashes
+            Path tempUserDataDir = Files.createTempDirectory("chrome-profile");
+            options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath());
         }
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+
+        driver = new ChromeDriver(options);
+        driver.manage().window().setSize(new Dimension(1280, 1024)); // fixed size for headless mode
     }
 
     @BeforeEach
