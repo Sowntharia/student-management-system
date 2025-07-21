@@ -1,5 +1,7 @@
 package net.javaguides.sms;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,9 +13,10 @@ import net.javaguides.sms.repository.StudentRepository;
 @SpringBootApplication
 public class StudentManagementSystemApplication implements CommandLineRunner {
 
+	private static final Logger logger = LoggerFactory.getLogger(StudentManagementSystemApplication.class);
+
     private final StudentRepository studentRepository;
 
-    
     public StudentManagementSystemApplication(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
@@ -32,9 +35,10 @@ public class StudentManagementSystemApplication implements CommandLineRunner {
             studentRepository.save(StudentMapper.mapToEntity(student1));
             studentRepository.save(StudentMapper.mapToEntity(student2));
             studentRepository.save(StudentMapper.mapToEntity(student3));
+
+            logger.info("Sample student data initialized successfully.");
         } catch (Exception e) {
-            System.err.println("Error initializing student data: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error initializing student data", e);
         }
     }
 

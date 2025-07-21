@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Constructor;
 
-public class StudentMapperTest {
+ class StudentMapperTest {
 
     @Test
     void testMapToStudentDto() {

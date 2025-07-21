@@ -21,7 +21,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class StudentWebControllerE2ETest {
+class StudentWebControllerE2ETest {
 
     @LocalServerPort
     private int port;
