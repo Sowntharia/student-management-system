@@ -28,18 +28,21 @@ class StudentManagementSystemApplicationTests {
     }
 
     @Test
-    void testRunMethodManually() throws Exception {
-        StudentDto s1 = new StudentDto("Ramesh", "Fadatare", "ramesh@gmail.com");
-        StudentDto s2 = new StudentDto("Sanjay", "Jadhav", "sanjay@gmail.com");
-        StudentDto s3 = new StudentDto("Tony", "Fadatare", "tony@gmail.com");
+    void testRunMethodManually() {
+        assertDoesNotThrow(() -> {
+            StudentDto s1 = new StudentDto("Ramesh", "Fadatare", "ramesh@gmail.com");
+            StudentDto s2 = new StudentDto("Sanjay", "Jadhav", "sanjay@gmail.com");
+            StudentDto s3 = new StudentDto("Tony", "Fadatare", "tony@gmail.com");
 
-        studentRepository.save(StudentMapper.mapToEntity(s1));
-        studentRepository.save(StudentMapper.mapToEntity(s2));
-        studentRepository.save(StudentMapper.mapToEntity(s3));
+            studentRepository.save(StudentMapper.mapToEntity(s1));
+            studentRepository.save(StudentMapper.mapToEntity(s2));
+            studentRepository.save(StudentMapper.mapToEntity(s3));
 
-        List<Student> students = studentRepository.findAll();
-        assertEquals(3, students.size());
+            List<Student> students = studentRepository.findAll();
+            assertEquals(3, students.size());
+        });
     }
+
 
     @Test
     void testRunMethodFromMainApplication() {
