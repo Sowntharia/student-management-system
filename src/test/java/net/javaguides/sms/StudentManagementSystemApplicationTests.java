@@ -8,6 +8,8 @@ import net.javaguides.sms.repository.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -55,4 +57,5 @@ class StudentManagementSystemApplicationTests {
         StudentManagementSystemApplication app = new StudentManagementSystemApplication(studentRepository);
         assertNotNull(app);
     }
-}
+    
+    }
