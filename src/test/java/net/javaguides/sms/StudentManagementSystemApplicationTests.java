@@ -14,13 +14,14 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @ActiveProfiles("test")
 @SpringBootTest
 class StudentManagementSystemApplicationTests {
 
     @Autowired
     private StudentRepository studentRepository;
-    
+
     @BeforeEach
     void clearDatabase() {
         studentRepository.deleteAll();  // ensure clean state
@@ -39,11 +40,10 @@ class StudentManagementSystemApplicationTests {
         List<Student> students = studentRepository.findAll();
         assertEquals(3, students.size());
     }
-    
+
     @Test
     void testRunMethodFromMainApplication() throws Exception {
-        StudentManagementSystemApplication app = new StudentManagementSystemApplication();
-        app.setStudentRepository(this.studentRepository);
+        StudentManagementSystemApplication app = new StudentManagementSystemApplication(this.studentRepository);
         app.run();
 
         List<Student> students = studentRepository.findAll();
