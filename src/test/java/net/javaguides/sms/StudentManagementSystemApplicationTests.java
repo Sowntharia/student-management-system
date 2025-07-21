@@ -8,8 +8,6 @@ import net.javaguides.sms.repository.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -44,9 +42,13 @@ class StudentManagementSystemApplicationTests {
     }
 
     @Test
-    void testRunMethodFromMainApplication() throws Exception {
+    void testRunMethodFromMainApplication() {
         StudentManagementSystemApplication app = new StudentManagementSystemApplication(this.studentRepository);
-        app.run();
+        try {
+            app.run();
+        } catch (Exception e) {
+            fail("Exception should not be thrown: " + e.getMessage());
+        }
 
         List<Student> students = studentRepository.findAll();
         assertEquals(3, students.size(), "There should be 3 students loaded from the run() method.");
