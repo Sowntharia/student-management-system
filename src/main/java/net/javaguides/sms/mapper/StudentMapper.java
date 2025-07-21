@@ -4,6 +4,10 @@ import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.entity.Student;
 
 public class StudentMapper {
+	
+	 private StudentMapper() {
+	        // Utility class
+	    }
 
     // Convert Entity to DTO
     public static StudentDto mapToDto(Student student) {

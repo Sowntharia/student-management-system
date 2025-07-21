@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.Constructor;
+
 public class StudentMapperTest {
 
     @Test
@@ -70,6 +72,13 @@ public class StudentMapperTest {
     void testMapToStudent_NullInput() {
         Student result = StudentMapper.mapToEntity(null);
         assertNull(result);
+    }
+    
+    @Test
+    void testPrivateConstructor() throws Exception {
+        Constructor<StudentMapper> constructor = StudentMapper.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 
 }
