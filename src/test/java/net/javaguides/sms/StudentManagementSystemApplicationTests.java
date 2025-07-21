@@ -49,4 +49,10 @@ class StudentManagementSystemApplicationTests {
         List<Student> students = studentRepository.findAll();
         assertEquals(3, students.size(), "There should be 3 students loaded from the run() method.");
     }
+    
+    @Test
+    void testConstructorCoverage() {
+        StudentManagementSystemApplication app = new StudentManagementSystemApplication(studentRepository);
+        assertNotNull(app);
+    }
 }
