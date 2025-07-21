@@ -225,7 +225,7 @@
                         <param>net.javaguides.sms.*</param>
                     </targetTests>
                     <excludedClasses>
-						<param>net.javaguides.sms.StudentE2ETest</param>
+						<param>net.javaguides.sms.StudentWebControllerE2ETest</param>
 						<param>net.javaguides.sms.StudentSeleniumUITest</param>
 					</excludedClasses>
                     <outputFormats>

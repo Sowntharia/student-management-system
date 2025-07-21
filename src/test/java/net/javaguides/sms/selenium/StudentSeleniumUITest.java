@@ -1,135 +1,93 @@
 package net.javaguides.sms.selenium;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.Duration;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.junit.jupiter.api.*;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import org.springframework.test.context.ActiveProfiles;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StudentSeleniumUITest {
 
-	private WebDriver driver;
-	private WebDriverWait wait;
-	
-	@BeforeEach
-	void setUp() {
-		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();
-		driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-		driver.get("http://localhost:8080/students");
-	}
-	
-	@AfterEach
-	void tearDown() {
-		if (driver != null) {
-			driver.quit();
-		}
-	}
-	
-	
-	@Test
-	@Order(1)
-	void testAddStudent() {
-		driver.findElement(By.linkText("Add Student")).click();
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("firstName")));
-		
-		driver.findElement(By.name("firstName")).sendKeys("Test");
-		driver.findElement(By.name("lastName")).sendKeys("User");
-		driver.findElement(By.name("email")).sendKeys("testuser@example.com");
-		
-		//submit button
-		driver.findElement(By.cssSelector("button[type='submit']")).click();
-		
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "testuser@example.com"));
-		
-		String page = driver.getPageSource();
-		assertTrue(page.contains("Test"));
-		assertTrue(page.contains("User"));
-		assertTrue(page.contains("testuser@example.com"));
-		
-	}
-	
-	@Test
-	@Order(2)
-	void testUpdateStudent() {
-		driver.get("http://localhost:8080/students");
+    private WebDriver driver;
+    private WebDriverWait wait;
 
-		WebElement row = wait.until(ExpectedConditions.presenceOfElementLocated(
-				By.xpath("//tr[td[contains(text(),'Test')]]")));
+    @BeforeEach
+    void setUp() {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        driver.get("http://localhost:8080/students");
+    }
 
-		WebElement editButton = row.findElement(By.cssSelector("a.edit-button"));
-		editButton.click();
+    @AfterEach
+    void tearDown() {
+        if (driver != null) driver.quit();
+    }
 
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("lastName")));
-		WebElement lastName = driver.findElement(By.name("lastName"));
-		lastName.clear();
-		lastName.sendKeys("Updated");
+    @Test
+    @Order(1)
+    void testAddStudent() {
+        driver.findElement(By.linkText("Add Student")).click();
 
-		driver.findElement(By.cssSelector("button[type='submit']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("firstName"))).sendKeys("Test");
+        driver.findElement(By.id("lastName")).sendKeys("User");
+        driver.findElement(By.id("email")).sendKeys("testuser@example.com");
 
-		wait.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "Updated"));
+        driver.findElement(By.cssSelector("button[type='submit']")).click();
 
-		String page = driver.getPageSource();
-		assertTrue(page.contains("Updated"));
-	}
-	
-	@Test
-	@Order(3)
-	void testDeleteStudent() {
-		
-		driver.get("http://localhost:8080/students");
+        String body = driver.findElement(By.tagName("body")).getText();
+        assertTrue(body.contains("Test"));
+        assertTrue(body.contains("User"));
+        assertTrue(body.contains("testuser@example.com"));
+    }
 
-		WebElement row = wait.until(ExpectedConditions.presenceOfElementLocated(
-				By.xpath("//tr[td[contains(text(),'Test') or contains(text(),'Updated')]]")));
+    @Test
+    @Order(2)
+    void testUpdateStudent() {
+        driver.get("http://localhost:8080/students");
 
-		WebElement deleteButton = row.findElement(By.cssSelector("form.delete-form button[type='submit']"));
-		deleteButton.click();
+        WebElement row = wait.until(ExpectedConditions.presenceOfElementLocated(
+            By.xpath("//tr[td[contains(text(),'testuser@example.com')]]")));
 
-		// Accept confirmation alert
-		try {
-			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-			alert.accept();
-		} catch (TimeoutException e) {
-			System.out.println("No alert appeared.");
-		}
+        WebElement editBtn = row.findElement(By.cssSelector("a.edit-button"));
+        editBtn.click();
 
-		// Wait for page to reload after deletion
-		wait.until(ExpectedConditions.invisibilityOf(row));
+        WebElement lastNameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("lastName")));
+        lastNameField.clear();
+        lastNameField.sendKeys("Updated");
 
-		// Reload the students page explicitly
-		driver.get("http://localhost:8080/students");
+        driver.findElement(By.cssSelector("button[type='submit']")).click();
 
-		// Verify the student no longer exists in table
-		String page = driver.getPageSource();
-		assertFalse(
-			page.contains("testuser@example.com") || 
-			page.contains("Updated") || 
-			page.contains("Test"),
-			"Deleted student info still present in table!"
-		);
-	}
-	
-	
+        String page = driver.getPageSource();
+        assertTrue(page.contains("Updated"));
+    }
+
+    
+    @Test
+    @Order(3)
+    void testDeleteStudent() {
+        driver.get("http://localhost:8080/students");
+
+        WebElement row = wait.until(ExpectedConditions.presenceOfElementLocated(
+            By.xpath("//tr[td[contains(text(),'testuser@example.com')]]")));
+
+        WebElement form = row.findElement(By.cssSelector("form.delete-form"));
+        form.submit();
+
+        wait.until(ExpectedConditions.stalenessOf(row)); // Wait until row disappears
+
+        driver.navigate().refresh(); // Reload to confirm deletion
+        String page = driver.getPageSource();
+
+        assertFalse(page.contains("testuser@example.com"));
+    }
 }
-
