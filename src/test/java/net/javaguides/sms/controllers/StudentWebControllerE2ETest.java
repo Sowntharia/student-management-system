@@ -7,6 +7,7 @@ import java.time.Duration;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.*;
 
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,16 @@ public class StudentWebControllerE2ETest {
     @BeforeAll
     static void setupClass() {
         WebDriverManager.chromedriver().setup();
+        
+        ChromeOptions options = new ChromeOptions();
+
+        // Detect if running in GitHub Actions CI (Linux)
+        if (System.getenv("GITHUB_ACTIONS") != null) {
+            options.addArguments("--headless=new"); // use --headless=new for Chrome >=109
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+        }
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
