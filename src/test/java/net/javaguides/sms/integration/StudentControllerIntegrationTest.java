@@ -24,7 +24,7 @@ import net.javaguides.sms.repository.StudentRepository;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class StudentControllerIntegrationTest {
+class StudentControllerIntegrationTest {
 	
 	@Autowired
 	private MockMvc mockMvc;

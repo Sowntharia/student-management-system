@@ -68,13 +68,13 @@ class StudentTest {
     @Test
     void testEqualsWithDifferentType() {
         Student student = new Student("A", "B", "a@b.com");
-        assertNotEquals(student, "not a student"); 
+        assertNotEquals("not a student", student); 
     }
 
     @Test
     void testEqualsWithNull() {
         Student student = new Student("A", "B", "a@b.com");
-        assertNotEquals(student, null); 
+        assertNotEquals(student, null);       
     }
 
 }
