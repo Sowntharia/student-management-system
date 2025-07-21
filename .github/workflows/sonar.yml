@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Build and analyze on SonarCloud
+    name: Build, test and analyze on SonarCloud
     runs-on: ubuntu-latest
 
     steps:
@@ -40,11 +40,15 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
 
-      - name: Build and analyze with SonarCloud
+      - name: Build with Maven and run tests
+        run: mvn clean verify jacoco:report
+
+      - name: SonarCloud Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn clean verify sonar:sonar \
-             -Dsonar.projectKey=Sowntharia_student-management-system \
-             -Dsonar.organization=sowntharia \
-             -Dsonar.host.url=https://sonarcloud.io \
-             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn sonar:sonar \
+          -Dsonar.projectKey=Sowntharia_student-management-system \
+          -Dsonar.organization=sowntharia \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
