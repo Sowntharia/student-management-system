@@ -67,14 +67,4 @@ public class StudentDto {
         this.email = email;
     }
 
-    // Optional: Useful for debugging and test assertions
-    @Override
-    public String toString() {
-        return "StudentDto{" +
-               "id=" + id +
-               ", firstName='" + firstName + '\'' +
-               ", lastName='" + lastName + '\'' +
-               ", email='" + email + '\'' +
-               '}';
-    }
 }
