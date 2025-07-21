@@ -31,6 +31,7 @@ public class StudentWebControllerE2ETest {
     @BeforeAll
     static void setupClass() {
         WebDriverManager.chromedriver().setup();
+      
         
         ChromeOptions options = new ChromeOptions();
 
