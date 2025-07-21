@@ -30,10 +30,11 @@
         <sonar.organization>sowntharia</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         
+         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+         <sonar.coverage.exclusions>**/*E2ETest.java</sonar.coverage.exclusions>
+         
     </properties>
     
-   
-
     <dependencyManagement>
 		<dependencies>
 			<dependency>
