@@ -21,13 +21,23 @@ class StudentTest {
     }
 
     @Test
-    void testAllArgsConstructor() {
+    void testAllArgsConstructorWithoutId() {
         Student student = new Student("Bob", "Johnson", "bob@example.com");
 
-        assertNull(student.getId());  // id is not set by constructor
+        assertNull(student.getId());
         assertEquals("Bob", student.getFirstName());
         assertEquals("Johnson", student.getLastName());
         assertEquals("bob@example.com", student.getEmail());
+    }
+
+    @Test
+    void testAllArgsConstructorWithId() {
+        Student student = new Student(99L, "Charlie", "Brown", "charlie@example.com");
+
+        assertEquals(99L, student.getId()); 
+        assertEquals("Charlie", student.getFirstName());
+        assertEquals("Brown", student.getLastName());
+        assertEquals("charlie@example.com", student.getEmail());
     }
 
 }

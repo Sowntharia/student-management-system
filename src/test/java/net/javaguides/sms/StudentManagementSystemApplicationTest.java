@@ -2,12 +2,13 @@ package net.javaguides.sms;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.ActiveProfiles;
+@ActiveProfiles("test")
 @SpringBootTest
-public class StudentManagementSystemApplicationTest {
+class StudentManagementSystemApplicationTest {
 
     @Test
     void contextLoads() {
-        // This test ensures Spring Boot context loads correctly
+        // this will just test if the application context loads
     }
 }
