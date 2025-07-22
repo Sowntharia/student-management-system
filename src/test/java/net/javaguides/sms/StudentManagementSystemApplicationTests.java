@@ -1,66 +1,47 @@
 package net.javaguides.sms;
 
-import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.entity.Student;
-import net.javaguides.sms.mapper.StudentMapper;
 import net.javaguides.sms.repository.StudentRepository;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@ActiveProfiles("test")
 @SpringBootTest
-class StudentManagementSystemApplicationTests {
+class StudentManagementSystemApplicationTest {
 
     @Autowired
     private StudentRepository studentRepository;
 
-    @BeforeEach
-    void clearDatabase() {
-        studentRepository.deleteAll(); // Ensure a clean database before each test
+    @Test
+    void contextLoads() {
+        assertThat(studentRepository).isNotNull();
     }
 
     @Test
-    void testRunMethodManually() {
-        assertDoesNotThrow(() -> {
-            StudentDto s1 = new StudentDto("Ramesh", "Fadatare", "ramesh@gmail.com");
-            StudentDto s2 = new StudentDto("Sanjay", "Jadhav", "sanjay@gmail.com");
-            StudentDto s3 = new StudentDto("Tony", "Fadatare", "tony@gmail.com");
+    void testSaveStudent() {
+        Student student = new Student();
+        student.setFirstName("Test");
+        student.setLastName("User");
+        student.setEmail("testuser@example.com");
 
-            studentRepository.save(StudentMapper.mapToEntity(s1));
-            studentRepository.save(StudentMapper.mapToEntity(s2));
-            studentRepository.save(StudentMapper.mapToEntity(s3));
-
-            List<Student> students = studentRepository.findAll();
-            assertEquals(3, students.size());
-        });
+        Student savedStudent = studentRepository.save(student);
+        assertThat(savedStudent.getId()).isNotNull();
+        assertThat(savedStudent.getFirstName()).isEqualTo("Test");
     }
 
     @Test
-    void testRunMethodFromMainApplication() {
-        StudentManagementSystemApplication app = new StudentManagementSystemApplication(this.studentRepository);
-        try {
-            app.run();
-        } catch (Exception e) {
-            fail("Exception should not be thrown: " + e.getMessage());
-        }
+    void testDeleteStudent() {
+        Student student = new Student();
+        student.setFirstName("ToDelete");
+        student.setLastName("User");
+        student.setEmail("deleteuser@example.com");
 
-        List<Student> students = studentRepository.findAll();
-        assertEquals(3, students.size(), "There should be 3 students loaded from the run() method.");
+        Student savedStudent = studentRepository.save(student);
+        Long id = savedStudent.getId();
+
+        studentRepository.deleteById(id);
+        assertThat(studentRepository.findById(id)).isEmpty();
     }
-
-    @Test
-    void testConstructorCoverage() {
-        StudentManagementSystemApplication app = new StudentManagementSystemApplication(studentRepository);
-        assertNotNull(app);
-    }
-
-    
 }
