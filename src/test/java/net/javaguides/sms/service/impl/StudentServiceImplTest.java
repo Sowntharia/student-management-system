@@ -1,6 +1,5 @@
 package net.javaguides.sms.service.impl;
 
-import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.exception.StudentNotFoundException;
 import net.javaguides.sms.repository.StudentRepository;
@@ -41,12 +40,12 @@ class StudentServiceImplTest {
     void shouldSaveStudentSuccessfully() {
         when(studentRepository.save(any(Student.class))).thenReturn(student);
 
-        StudentDto dto = new StudentDto();
-        dto.setFirstName("John");
-        dto.setLastName("Doe");
-        dto.setEmail("john.doe@example.com");
+        Student student = new Student();
+        student.setFirstName("John");
+        student.setLastName("Doe");
+        student.setEmail("john.doe@example.com");
 
-        StudentDto saved = studentService.saveStudent(dto);
+        Student saved = studentService.saveStudent(student);
 
         assertThat(saved.getFirstName()).isEqualTo("John");
         assertThat(saved.getEmail()).isEqualTo("john.doe@example.com");
@@ -58,7 +57,7 @@ class StudentServiceImplTest {
     void shouldReturnAllStudentsAsDtoList() {
         when(studentRepository.findAll()).thenReturn(List.of(student));
 
-        List<StudentDto> result = studentService.getAllStudents();
+        List<Student> result = studentService.getAllStudents();
 
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getFirstName()).isEqualTo("John");
@@ -69,7 +68,7 @@ class StudentServiceImplTest {
     void shouldReturnStudentById() {
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        StudentDto result = studentService.getStudentById(1L);
+        Student result = studentService.getStudentById(1L);
 
         assertThat(result.getEmail()).isEqualTo("john.doe@example.com");
     }
@@ -88,12 +87,12 @@ class StudentServiceImplTest {
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
         when(studentRepository.save(any(Student.class))).thenReturn(student);
 
-        StudentDto dto = new StudentDto();
-        dto.setFirstName("Updated");
-        dto.setLastName("Name");
-        dto.setEmail("updated@example.com");
+        Student student = new Student();
+        student.setFirstName("Updated");
+        student.setLastName("Name");
+        student.setEmail("updated@example.com");
 
-        StudentDto updated = studentService.updateStudent(1L, dto);
+        Student updated = studentService.updateStudent(1L, student);
 
         assertThat(updated.getFirstName()).isEqualTo("Updated");
         assertThat(updated.getEmail()).isEqualTo("updated@example.com");
@@ -103,7 +102,7 @@ class StudentServiceImplTest {
     void shouldThrowWhenUpdateFailsIfStudentNotFound() {
         when(studentRepository.findById(99L)).thenReturn(Optional.empty());
 
-        StudentDto dto = new StudentDto();
+        Student dto = new Student();
         dto.setFirstName("X");
         dto.setLastName("Y");
         dto.setEmail("z@example.com");

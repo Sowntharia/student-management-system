@@ -2,16 +2,17 @@ package net.javaguides.sms.service;
 
 import java.util.List;
 
-import net.javaguides.sms.dto.StudentDto;
+import net.javaguides.sms.entity.Student;
+
 
 public interface StudentService {
-    List<StudentDto> getAllStudents();
+    List<Student> getAllStudents();
     
-    StudentDto saveStudent(StudentDto studentDto);
+    Student saveStudent(Student student);
     
-    StudentDto getStudentById(Long id);
+    Student getStudentById(Long id);
     
-    StudentDto updateStudent(Long id,StudentDto studentDto);
+    Student updateStudent(Long id,Student student);
     
     void deleteStudentById(Long id);
     

@@ -1,95 +1,69 @@
 package net.javaguides.sms.controller;
 
-
+import net.javaguides.sms.entity.Student;
+import net.javaguides.sms.service.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import net.javaguides.sms.dto.StudentDto;
-import net.javaguides.sms.service.StudentService;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class StudentController {
-	
-	private StudentService studentService;
-	
-    private static final String REDIRECT_STUDENTS = "redirect:/students"; 
 
+    private final StudentService studentService;
 
-	public StudentController(StudentService studentService) {
-		super();
-		this.studentService = studentService;
-	}
-	
-	
-	//Display list of students
-	
-	@GetMapping("/students")
-	public String listStudents(Model model) {
-		model.addAttribute("students", studentService.getAllStudents());
-		return "students";
-		
-	}
-	
-	//Show form to create a new student
-	
-	@GetMapping("/students/new")
-	public String createStudentForm(Model model){
-		
-		//create student object to hold student form data
-		StudentDto student = new StudentDto();
-		model.addAttribute("student", student);
-		return "create_student";
-	}
-	
-	//Save student after form submission
-	
-	@PostMapping("/students")
-	public String saveStudent(@ModelAttribute("student") StudentDto studentDto) {
-		
-		studentService.saveStudent(studentDto);
-		return REDIRECT_STUDENTS;
-		
-	}
-	
-	//Show form to edit an existing student
-	
-	@GetMapping("/students/edit/{id}")
-	public String editStudentForm(@PathVariable Long id, Model model) {
-		StudentDto studentDto = studentService.getStudentById(id);
-		model.addAttribute("student", studentDto);
-		return "edit_student";
-	}
-	
-	//Update student after form submission
-	
-	@PostMapping("/students/{id}" )
-	public String updateStudent(@PathVariable Long id,
-			                    @ModelAttribute("student") StudentDto studentDto) {
-		
-	   //save updated student object
-		studentService.updateStudent(id, studentDto);
-        return REDIRECT_STUDENTS;	
-		
-	}
-	
-	//Securely delete a student 
-	
-	@PostMapping("/students/{id}/delete")
-	public String deleteStudent(@PathVariable Long id) {
-		studentService.deleteStudentById(id);
-		return REDIRECT_STUDENTS;
-		
-	}
-	
-	// REST API to get student by ID (for testing purposes)
-	@GetMapping("/students/{id}")
-	public @ResponseBody StudentDto getStudentById(@PathVariable Long id) {
-	    return studentService.getStudentById(id);
-	}
+    private static final String REDIRECT_STUDENTS = "redirect:/students";
 
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
+    // Display list of students
+    @GetMapping("/students")
+    public String listStudents(Model model) {
+        model.addAttribute("students", studentService.getAllStudents());
+        return "students";
+    }
+
+    // Show form to create a new student
+    @GetMapping("/students/new")
+    public String createStudentForm(Model model) {
+        model.addAttribute("student", new Student());
+        return "create_student";
+    }
+
+    // Save new student
+    @PostMapping("/students")
+    public String saveStudent(@ModelAttribute("student") Student student) {
+        studentService.saveStudent(student);
+        return REDIRECT_STUDENTS;
+    }
+
+    // Show edit form
+    @GetMapping("/students/edit/{id}")
+    public String editStudentForm(@PathVariable Long id, Model model) {
+        Student student = studentService.getStudentById(id);
+        model.addAttribute("student", student);
+        return "edit_student";
+    }
+
+    // Update student
+    @PostMapping("/students/{id}")
+    public String updateStudent(@PathVariable Long id,
+                                 @ModelAttribute("student") Student student) {
+        studentService.updateStudent(id, student);
+        return REDIRECT_STUDENTS;
+    }
+
+    // Delete student
+    @PostMapping("/students/{id}/delete")
+    public String deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudentById(id);
+        return REDIRECT_STUDENTS;
+    }
+
+    // REST API for testing
+    @GetMapping("/students/{id}")
+    public @ResponseBody Student getStudentById(@PathVariable Long id) {
+        return studentService.getStudentById(id);
+    }
 }

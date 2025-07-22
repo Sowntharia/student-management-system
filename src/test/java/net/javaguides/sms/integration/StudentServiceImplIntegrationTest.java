@@ -1,6 +1,5 @@
 package net.javaguides.sms.integration;
 
-import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.repository.StudentRepository;
 import net.javaguides.sms.service.StudentService;
@@ -26,26 +25,26 @@ class StudentServiceImplIntegrationTest {
     @Autowired
     private StudentRepository studentRepository;
 
-    private StudentDto studentDto;
+    private Student student;
 
     @BeforeEach
     void setUp() {
         studentRepository.deleteAll();
-        studentDto = new StudentDto();
-        studentDto.setFirstName("Alice");
-        studentDto.setLastName("Wonder");
-        studentDto.setEmail("alice@example.com");
-        studentService.saveStudent(studentDto);
+        student = new Student();
+        student.setFirstName("Alice");
+        student.setLastName("Wonder");
+        student.setEmail("alice@example.com");
+        studentService.saveStudent(student);
     }
 
     @Test
     void shouldSaveStudent() {
-        StudentDto dto = new StudentDto();
-        dto.setFirstName("Bob");
-        dto.setLastName("Builder");
-        dto.setEmail("bob@example.com");
+        Student student = new Student();
+        student.setFirstName("Bob");
+        student.setLastName("Builder");
+        student.setEmail("bob@example.com");
 
-        StudentDto saved = studentService.saveStudent(dto);
+        Student saved = studentService.saveStudent(student);
 
         assertThat(saved).isNotNull();
         assertThat(saved.getEmail()).isEqualTo("bob@example.com");
@@ -56,7 +55,7 @@ class StudentServiceImplIntegrationTest {
 
     @Test
     void shouldGetAllStudents() {
-        List<StudentDto> students = studentService.getAllStudents();
+        List<Student> students = studentService.getAllStudents();
         assertThat(students).hasSize(1);
         assertThat(students.get(0).getEmail()).isEqualTo("alice@example.com");
     }
@@ -74,12 +73,12 @@ class StudentServiceImplIntegrationTest {
     void shouldUpdateStudentById() {
         Long id = studentRepository.findAll().get(0).getId();
 
-        StudentDto update = new StudentDto();
+        Student update = new Student();
         update.setFirstName("Updated");
         update.setLastName("Name");
         update.setEmail("updated@example.com");
 
-        StudentDto result = studentService.updateStudent(id, update);
+        Student result = studentService.updateStudent(id, update);
 
         assertThat(result.getFirstName()).isEqualTo("Updated");
         assertThat(result.getEmail()).isEqualTo("updated@example.com");

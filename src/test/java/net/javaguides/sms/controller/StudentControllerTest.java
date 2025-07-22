@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import net.javaguides.sms.dto.StudentDto;
+import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.service.StudentService;
 
 @ActiveProfiles("test")
@@ -39,7 +39,7 @@ import net.javaguides.sms.service.StudentService;
 	
 	private MockMvc mockMvc;
 	
-	private StudentDto studentDto;
+	private Student student;
 	
 	@BeforeEach
 	void setup() {
@@ -51,12 +51,12 @@ import net.javaguides.sms.service.StudentService;
 		viewResolver.setSuffix(".html");
 		
 		mockMvc = MockMvcBuilders.standaloneSetup(studentController).setViewResolvers(viewResolver).build();
-		studentDto = new StudentDto(1L, "John", "Doe", "john@example.com");
+		student = new Student("John", "Doe", "john@example.com");
 	}
 	
 	@Test
 	void shouldListAllStudents()throws Exception {
-		given(studentService.getAllStudents()).willReturn(Arrays.asList(studentDto));
+		given(studentService.getAllStudents()).willReturn(Arrays.asList(student));
 		
 		mockMvc.perform(get("/students"))
 		.andExpect(status().isOk())
@@ -81,13 +81,13 @@ import net.javaguides.sms.service.StudentService;
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/students"));
 		
-		verify(studentService).saveStudent(any(StudentDto.class));
+		verify(studentService).saveStudent(any(Student.class));
 		
 	}
 	
 	@Test
 	void shouldShowEditForm() throws Exception{
-		given(studentService.getStudentById(1L)).willReturn(studentDto);
+		given(studentService.getStudentById(1L)).willReturn(student);
 		
 		mockMvc.perform(get("/students/edit/1"))
 		.andExpect(status().isOk())
@@ -97,7 +97,7 @@ import net.javaguides.sms.service.StudentService;
 	
 	@Test
 	void shouldUpdateStudent() throws Exception {
-		given(studentService.getStudentById(1L)).willReturn(studentDto);
+		given(studentService.getStudentById(1L)).willReturn(student);
 		
 		mockMvc.perform(post("/students/1")
 				.param("firstName", "Updated")
@@ -106,7 +106,7 @@ import net.javaguides.sms.service.StudentService;
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/students"));
 		
-		verify(studentService).updateStudent(any(Long.class),any(StudentDto.class));
+		verify(studentService).updateStudent(any(Long.class),any(Student.class));
 	}
 	
 	@Test
@@ -129,7 +129,7 @@ import net.javaguides.sms.service.StudentService;
 	
 	@Test
 	void shouldReturnEditStudentViewName() throws Exception {
-		given(studentService.getStudentById(1L)).willReturn(studentDto);
+		given(studentService.getStudentById(1L)).willReturn(student);
 		
 		mockMvc.perform(get("/students/edit/1"))
 	     .andExpect(status().isOk())
@@ -139,9 +139,9 @@ import net.javaguides.sms.service.StudentService;
 	
 	@Test
 	void shouldReturnCorrectStudentFromGetStudentById() {
-	    given(studentService.getStudentById(1L)).willReturn(studentDto);
+	    given(studentService.getStudentById(1L)).willReturn(student);
 
-	    StudentDto result = studentController.getStudentById(1L);
+	    Student result = studentController.getStudentById(1L);
 
 	    assertNotNull(result);
 	    assertEquals("John", result.getFirstName());
