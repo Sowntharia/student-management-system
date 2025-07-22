@@ -1,58 +1,42 @@
 package net.javaguides.sms.dto;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentDtoTest {
 
     @Test
-    void testNoArgsConstructorAndSetters() {
-        StudentDto dto = new StudentDto();
-
-        dto.setId(1L);
-        dto.setFirstName("John");
-        dto.setLastName("Doe");
-        dto.setEmail("john@example.com");
-
-        assertEquals(1L, dto.getId());
-        assertEquals("John", dto.getFirstName());
-        assertEquals("Doe", dto.getLastName());
-        assertEquals("john@example.com", dto.getEmail());
-    }
-
-    @Test
     void testAllArgsConstructor() {
-        StudentDto dto = new StudentDto(1L, "Alice", "Smith", "alice@example.com");
+        StudentDto dto = new StudentDto(1L, "Ramesh", "Fadatare", "ramesh@gmail.com");
 
         assertEquals(1L, dto.getId());
-        assertEquals("Alice", dto.getFirstName());
-        assertEquals("Smith", dto.getLastName());
-        assertEquals("alice@example.com", dto.getEmail());
+        assertEquals("Ramesh", dto.getFirstName());
+        assertEquals("Fadatare", dto.getLastName());
+        assertEquals("ramesh@gmail.com", dto.getEmail());
     }
 
     @Test
-    void testConstructorWithoutId() {
-        StudentDto dto = new StudentDto("Bob", "Brown", "bob@example.com");
-
-        assertNull(dto.getId());
-        assertEquals("Bob", dto.getFirstName());
-        assertEquals("Brown", dto.getLastName());
-        assertEquals("bob@example.com", dto.getEmail());
-    }
-
-    @Test
-    void testSettersOverrideValues() {
-        StudentDto dto = new StudentDto("Temp", "Temp", "temp@example.com");
-
+    void testPartialConstructorAndSetters() {
+        StudentDto dto = new StudentDto("Sanjay", "Jadhav", "sanjay@gmail.com");
         dto.setId(2L);
-        dto.setFirstName("Final");
-        dto.setLastName("Value");
-        dto.setEmail("final@example.com");
 
         assertEquals(2L, dto.getId());
-        assertEquals("Final", dto.getFirstName());
-        assertEquals("Value", dto.getLastName());
-        assertEquals("final@example.com", dto.getEmail());
+        assertEquals("Sanjay", dto.getFirstName());
+        assertEquals("Jadhav", dto.getLastName());
+        assertEquals("sanjay@gmail.com", dto.getEmail());
+    }
+
+    @Test
+    void testDefaultConstructorAndSetters() {
+        StudentDto dto = new StudentDto();
+        dto.setId(3L);
+        dto.setFirstName("Tony");
+        dto.setLastName("Stark");
+        dto.setEmail("tony@gmail.com");
+
+        assertEquals(3L, dto.getId());
+        assertEquals("Tony", dto.getFirstName());
+        assertEquals("Stark", dto.getLastName());
+        assertEquals("tony@gmail.com", dto.getEmail());
     }
 }
