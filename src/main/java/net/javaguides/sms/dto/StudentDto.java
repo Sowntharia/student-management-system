@@ -1,26 +1,16 @@
 package net.javaguides.sms.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
 public class StudentDto {
 
     private Long id;
-
-    @NotBlank(message = "First name is required")
     private String firstName;
-
-    @NotBlank(message = "Last name is required")
     private String lastName;
-
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email should be valid")
     private String email;
 
- // Constructors
     public StudentDto() {
     }
 
+    // Full constructor with all fields
     public StudentDto(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
@@ -28,12 +18,14 @@ public class StudentDto {
         this.email = email;
     }
 
+    // Constructor WITHOUT id (used in tests and form submissions)
     public StudentDto(String firstName, String lastName, String email) {
-        this(null, firstName, lastName, email); 
-
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
 
-    // Getters & Setters
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -65,5 +57,4 @@ public class StudentDto {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }

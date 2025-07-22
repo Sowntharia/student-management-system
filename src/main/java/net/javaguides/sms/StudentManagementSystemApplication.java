@@ -1,7 +1,7 @@
 package net.javaguides.sms;
 
 import net.javaguides.sms.dto.StudentDto;
-import net.javaguides.sms.mapper.StudentMapper;
+import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.repository.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +20,13 @@ public class StudentManagementSystemApplication {
     }
 
     @Bean
-    CommandLineRunner run(StudentRepository studentRepository) {
+    public CommandLineRunner run(StudentRepository studentRepository) {
         return args -> {
             try {
                 StudentDto student1 = new StudentDto();
-                student1.setFirstName("Ramesh");
+                student1.setFirstName("Ranesh");
                 student1.setLastName("Fadatare");
-                student1.setEmail("ramesh@gmail.com");
+                student1.setEmail("ranesh@gmail.com");
 
                 StudentDto student2 = new StudentDto();
                 student2.setFirstName("Sanjay");
@@ -38,14 +38,23 @@ public class StudentManagementSystemApplication {
                 student3.setLastName("Fadatare");
                 student3.setEmail("tony@gmail.com");
 
-                studentRepository.save(StudentMapper.mapToEntity(student1));
-                studentRepository.save(StudentMapper.mapToEntity(student2));
-                studentRepository.save(StudentMapper.mapToEntity(student3));
+                studentRepository.save(toEntity(student1));
+                studentRepository.save(toEntity(student2));
+                studentRepository.save(toEntity(student3));
 
                 logger.info("Sample student data initialized successfully.");
             } catch (Exception e) {
                 logger.error("Error initializing student data", e);
             }
         };
+    }
+
+    // Manual DTO to Entity conversion
+    private Student toEntity(StudentDto dto) {
+        Student student = new Student();
+        student.setFirstName(dto.getFirstName());
+        student.setLastName(dto.getLastName());
+        student.setEmail(dto.getEmail());
+        return student;
     }
 }
