@@ -19,17 +19,27 @@ public class Student {
     @Column(nullable = false, unique = true)
     private String email;
 
-    
+    // No-arg constructor (required by JPA)
+    public Student() {
+    }
+
+    // Constructor without ID (used when creating a new student)
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
 
-    
-    public Student() {}
+    // Full constructor (optional if needed)
+    public Student(Long id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 
-    
+    // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -61,5 +71,4 @@ public class Student {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }

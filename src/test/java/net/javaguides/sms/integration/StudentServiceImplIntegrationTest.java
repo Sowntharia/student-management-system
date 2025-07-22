@@ -31,13 +31,20 @@ class StudentServiceImplIntegrationTest {
     @BeforeEach
     void setUp() {
         studentRepository.deleteAll();
-        studentDto = new StudentDto("Alice", "Wonder", "alice@example.com");
+        studentDto = new StudentDto();
+        studentDto.setFirstName("Alice");
+        studentDto.setLastName("Wonder");
+        studentDto.setEmail("alice@example.com");
         studentService.saveStudent(studentDto);
     }
 
     @Test
     void shouldSaveStudent() {
-        StudentDto dto = new StudentDto("Bob", "Builder", "bob@example.com");
+        StudentDto dto = new StudentDto();
+        dto.setFirstName("Bob");
+        dto.setLastName("Builder");
+        dto.setEmail("bob@example.com");
+
         StudentDto saved = studentService.saveStudent(dto);
 
         assertThat(saved).isNotNull();
@@ -66,7 +73,11 @@ class StudentServiceImplIntegrationTest {
     @Test
     void shouldUpdateStudentById() {
         Long id = studentRepository.findAll().get(0).getId();
-        StudentDto update = new StudentDto("Updated", "Name", "updated@example.com");
+
+        StudentDto update = new StudentDto();
+        update.setFirstName("Updated");
+        update.setLastName("Name");
+        update.setEmail("updated@example.com");
 
         StudentDto result = studentService.updateStudent(id, update);
 

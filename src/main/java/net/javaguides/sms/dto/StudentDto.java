@@ -6,20 +6,14 @@ public class StudentDto {
     private String firstName;
     private String lastName;
     private String email;
-
+    
+    
+    //Constructor
     public StudentDto() {
     }
 
-    // Full constructor with all fields
     public StudentDto(Long id, String firstName, String lastName, String email) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
-    // Constructor WITHOUT id (used in tests and form submissions)
-    public StudentDto(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
