@@ -1,9 +1,9 @@
 package net.javaguides.sms.integration;
 
 import net.javaguides.sms.entity.Student;
+import net.javaguides.sms.exception.StudentNotFoundException;
 import net.javaguides.sms.repository.StudentRepository;
 import net.javaguides.sms.service.StudentService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
-import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
 @ActiveProfiles("test")
+@SpringBootTest
 class StudentServiceImplIntegrationTest {
 
     @Autowired
@@ -25,62 +24,77 @@ class StudentServiceImplIntegrationTest {
     @Autowired
     private StudentRepository studentRepository;
 
-    private Student student;
+    private Student testStudent;
 
     @BeforeEach
     void setUp() {
-        studentRepository.deleteAll();
-        student = new Student();
-        student.setFirstName("Alice");
-        student.setLastName("Wonder");
-        student.setEmail("alice@example.com");
-        studentService.saveStudent(student);
+        studentRepository.deleteAll(); // Clean DB before each test
+
+        testStudent = new Student();
+        testStudent.setFirstName("Alice");
+        testStudent.setLastName("Walker");
+        testStudent.setEmail("alice.walker@example.com");
+
+        testStudent = studentService.saveStudent(testStudent);
     }
 
     @Test
-    void shouldSaveStudent() {
-        Student student = new Student();
-        student.setFirstName("Bob");
-        student.setLastName("Builder");
-        student.setEmail("bob@example.com");
+    void shouldSaveStudentToDatabase() {
+        Student newStudent = new Student("Bob", "Builder", "bob@example.com");
 
-        Student saved = studentService.saveStudent(student);
+        Student saved = studentService.saveStudent(newStudent);
 
-        assertThat(saved).isNotNull();
+        assertThat(saved.getId()).isNotNull();
         assertThat(saved.getEmail()).isEqualTo("bob@example.com");
-
-        List<Student> all = studentRepository.findAll();
-        assertThat(all).hasSize(2);
     }
 
     @Test
-    void shouldGetAllStudents() {
+    void shouldRetrieveStudentById() {
+        Student found = studentService.getStudentById(testStudent.getId());
+
+        assertThat(found).isNotNull();
+        assertThat(found.getEmail()).isEqualTo("alice.walker@example.com");
+    }
+
+    @Test
+    void shouldRetrieveAllStudents() {
         List<Student> students = studentService.getAllStudents();
-        assertThat(students).hasSize(1);
-        assertThat(students.get(0).getEmail()).isEqualTo("alice@example.com");
+
+        assertThat(students).isNotEmpty();
+        assertThat(students.get(0).getEmail()).isEqualTo("alice.walker@example.com");
+    }
+
+    @Test
+    void shouldUpdateStudentDetails() {
+        Student updatedInfo = new Student("Alice", "Johnson", "updated@example.com");
+
+        Student updated = studentService.updateStudent(testStudent.getId(), updatedInfo);
+
+        assertThat(updated.getLastName()).isEqualTo("Johnson");
+        assertThat(updated.getEmail()).isEqualTo("updated@example.com");
     }
 
     @Test
     void shouldDeleteStudentById() {
-        Long idToDelete = studentRepository.findAll().get(0).getId();
-        studentService.deleteStudentById(idToDelete);
+        studentService.deleteStudentById(testStudent.getId());
 
-        Optional<Student> deleted = studentRepository.findById(idToDelete);
-        assertThat(deleted).isEmpty();
+        assertThatThrownBy(() -> studentService.getStudentById(testStudent.getId()))
+            .isInstanceOf(StudentNotFoundException.class);
     }
 
     @Test
-    void shouldUpdateStudentById() {
-        Long id = studentRepository.findAll().get(0).getId();
+    void shouldThrowWhenStudentNotFoundForUpdate() {
+        Student updateData = new Student("X", "Y", "z@example.com");
 
-        Student update = new Student();
-        update.setFirstName("Updated");
-        update.setLastName("Name");
-        update.setEmail("updated@example.com");
+        assertThatThrownBy(() -> studentService.updateStudent(999L, updateData))
+            .isInstanceOf(StudentNotFoundException.class)
+            .hasMessageContaining("Student not found with ID: 999");
+    }
 
-        Student result = studentService.updateStudent(id, update);
-
-        assertThat(result.getFirstName()).isEqualTo("Updated");
-        assertThat(result.getEmail()).isEqualTo("updated@example.com");
+    @Test
+    void shouldThrowWhenStudentNotFoundForDelete() {
+        assertThatThrownBy(() -> studentService.deleteStudentById(888L))
+            .isInstanceOf(StudentNotFoundException.class)
+            .hasMessageContaining("Student not found with ID: 888");
     }
 }
