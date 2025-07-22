@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StudentManagementSystemApplicationTest {
+public class StudentManagementSystemApplicationTest {
 
     @Test
     void contextLoads() {
-        // Test passes if Spring context loads without issues.
+        // This test ensures Spring Boot context loads correctly
     }
 }
