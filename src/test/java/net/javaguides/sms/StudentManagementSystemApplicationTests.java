@@ -24,7 +24,7 @@ class StudentManagementSystemApplicationTests {
 
     @BeforeEach
     void clearDatabase() {
-        studentRepository.deleteAll();  // ensure clean state
+        studentRepository.deleteAll(); // Ensure a clean database before each test
     }
 
     @Test
@@ -43,7 +43,6 @@ class StudentManagementSystemApplicationTests {
         });
     }
 
-
     @Test
     void testRunMethodFromMainApplication() {
         StudentManagementSystemApplication app = new StudentManagementSystemApplication(this.studentRepository);
@@ -56,11 +55,12 @@ class StudentManagementSystemApplicationTests {
         List<Student> students = studentRepository.findAll();
         assertEquals(3, students.size(), "There should be 3 students loaded from the run() method.");
     }
-    
+
     @Test
     void testConstructorCoverage() {
         StudentManagementSystemApplication app = new StudentManagementSystemApplication(studentRepository);
         assertNotNull(app);
     }
+
     
-    }
+}
