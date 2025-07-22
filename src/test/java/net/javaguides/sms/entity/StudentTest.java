@@ -74,7 +74,7 @@ class StudentTest {
     @Test
     void testEqualsWithNull() {
         Student student = new Student("A", "B", "a@b.com");
-        assertNotEquals(student, null);       
+        assertNotEquals(null, student);       
     }
 
 }
