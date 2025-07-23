@@ -9,7 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
 
@@ -23,7 +22,7 @@ public class StudentManagementSystemApplication {
     }
 
     @Bean
-    @Profile("!test")
+    
     public CommandLineRunner run(StudentRepository studentRepository) {
         return args -> {
             Student student1 = new Student("Ranesh", "Fadatare", "ranesh@gmail.com");
