@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
-
 /**
  * Main class of the Spring Boot Student Management System application.
  * <p>
@@ -19,12 +18,10 @@ import java.util.Arrays;
  * starting the embedded Tomcat server and initializing application components.
  * </p>
  */
-
 @SpringBootApplication
 public class StudentManagementSystemApplication {
    
 	private static final Logger logger = LoggerFactory.getLogger(StudentManagementSystemApplication.class);
-	
 	 /**
      * Entry point of the Spring Boot Student Management System application.
      * <p>
@@ -34,18 +31,15 @@ public class StudentManagementSystemApplication {
      *
      * @param args command-line arguments passed at startup
      */
-
     public static void main(String[] args) {
         SpringApplication.run(StudentManagementSystemApplication.class, args);
     }
-    
     /**
      * CommandLineRunner to insert sample student data into the database at application startup.
      *
      * @param studentRepository the student repository to save student data
      * @return the runner that executes after application context is loaded
      */
-    
     @Bean
     public CommandLineRunner run(StudentRepository studentRepository) {
         return args -> {
