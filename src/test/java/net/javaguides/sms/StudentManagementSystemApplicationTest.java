@@ -10,5 +10,6 @@ class StudentManagementSystemApplicationTest {
     @Test
     void contextLoads() {
         // this will just test if the application context loads
+    	
     }
 }
