@@ -17,12 +17,9 @@ public class StudentManagementSystemApplication {
    
 	private static final Logger logger = LoggerFactory.getLogger(StudentManagementSystemApplication.class);
 
-	public static void main(String[] args) {
-	    SpringApplication app = new SpringApplication(StudentManagementSystemApplication.class);
-	    app.setAdditionalProfiles("dev"); // Activate 'dev' profile before context loads
-	    app.run(args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(StudentManagementSystemApplication.class, args);
+    }
 
     @Bean
     public CommandLineRunner run(StudentRepository studentRepository) {
