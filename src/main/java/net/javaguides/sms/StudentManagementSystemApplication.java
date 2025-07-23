@@ -2,6 +2,9 @@ package net.javaguides.sms;
 
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.repository.StudentRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +14,8 @@ import java.util.Arrays;
 
 @SpringBootApplication
 public class StudentManagementSystemApplication {
+   
+	private static final Logger logger = LoggerFactory.getLogger(StudentManagementSystemApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(StudentManagementSystemApplication.class, args);
@@ -25,7 +30,7 @@ public class StudentManagementSystemApplication {
 
             studentRepository.saveAll(Arrays.asList(student1, student2, student3));
 
-            System.out.println("Sample students saved successfully.");
+            logger.info("Sample students saved successfully.");
         };
     }
 }

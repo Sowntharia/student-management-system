@@ -81,6 +81,16 @@ class StudentServiceImplIntegrationTest {
         assertThatThrownBy(() -> studentService.getStudentById(testStudent.getId()))
             .isInstanceOf(StudentNotFoundException.class);
     }
+    
+    @Test
+    void shouldThrowWhenStudentDeletedThenRetrieved() {
+        Long id = testStudent.getId();
+        studentService.deleteStudentById(id);
+
+        assertThatThrownBy(() -> studentService.getStudentById(id))
+            .isInstanceOf(StudentNotFoundException.class);
+    }
+
 
     @Test
     void shouldThrowWhenStudentNotFoundForUpdate() {
