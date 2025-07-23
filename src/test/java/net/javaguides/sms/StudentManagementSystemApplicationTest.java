@@ -1,15 +1,20 @@
 package net.javaguides.sms;
 
+import net.javaguides.sms.controller.StudentController;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-@ActiveProfiles("test")
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @SpringBootTest
-class StudentManagementSystemApplicationTest {
+class StudentManagementSystemApplicationTest extends BaseTestContainer {
+
+    @Autowired
+    private StudentController studentController;
 
     @Test
     void contextLoads() {
-        // this will just test if the application context loads
-    	
+        assertNotNull(studentController, "StudentController should not be null");
     }
 }
