@@ -14,6 +14,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 
+@SuppressWarnings("removal")
 @ActiveProfiles("test") // Ensures application-test.properties is used
 @SpringBootTest
 class StudentManagementSystemApplicationTest {
