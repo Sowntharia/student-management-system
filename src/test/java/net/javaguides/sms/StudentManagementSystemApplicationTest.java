@@ -1,15 +1,25 @@
 package net.javaguides.sms;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import net.javaguides.sms.entity.Student;
+import net.javaguides.sms.repository.StudentRepository;
 @ActiveProfiles("test")
 @SpringBootTest
-class StudentManagementSystemApplicationTest {
+class StudentManagementSystemApplicationTests {
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Test
-    void contextLoads() {
-        // this will just test if the application context loads
-    	
+    void contextLoadsAndInitializesStudents() {
+        List<Student> students = studentRepository.findAll();
+        assertFalse(students.isEmpty()); // check that some students got saved
     }
 }
