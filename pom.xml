@@ -31,9 +31,12 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         
          <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-         <sonar.coverage.exclusions>**/*E2ETest.java</sonar.coverage.exclusions>
-         <sonar.sources>src/main/java</sonar.sources>
-        <sonar.tests>src/test/java</sonar.tests>
+         <sonar.coverage.exclusions>
+                     **/StudentManagementSystemApplication.java,
+                         **/StudentWebControllerE2ETest.java,
+                           **/BaseTestContainer.java
+         </sonar.coverage.exclusions>
+         
          
     </properties>
     
@@ -269,6 +272,25 @@
 								<include>**/*IT.java</include>
                                 <include>**/*E2ETest.java</include>
                             </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Build helper plugin to inc;ude E2E sources -->
+             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-test-source</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/e2e/java</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>
