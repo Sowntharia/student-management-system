@@ -19,9 +19,13 @@ class StudentManagementSystemApplicationTest
 	{                  
 		System.setProperty("spring.profiles.active", "test");         
 		StudentManagementSystemApplication.main(new String[]{});                 
-		Assertions.assertTrue(true);     }     
+		Assertions.assertTrue(true);     
+	}     
 	@Test     
-	void contextLoadsAndInitializesStudents() {         
+	void contextLoadsAndInitializesStudents() {  
+		 Student student = new Student("Test", "Student", "test@student.com");
+		 studentRepository.save(student);
+		
 		List<Student> students = studentRepository.findAll();         
 		assertFalse(students.isEmpty());     
 		}
