@@ -16,13 +16,13 @@ class StudentManagementSystemApplicationTest
 	private StudentRepository studentRepository;     
 	@Test     
 	void testMain() 
-	{         //Arrange & Act         
+	{                  
 		System.setProperty("spring.profiles.active", "test");         
-		StudentManagementSystemApplication.main(new String[]{});         //Assert         
+		StudentManagementSystemApplication.main(new String[]{});                 
 		Assertions.assertTrue(true);     }     
 	@Test     
 	void contextLoadsAndInitializesStudents() {         
 		List<Student> students = studentRepository.findAll();         
-		assertFalse(students.isEmpty()); // check that some students got saved     
+		assertFalse(students.isEmpty());     
 		}
 	}
