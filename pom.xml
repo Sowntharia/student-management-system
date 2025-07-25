@@ -32,6 +32,8 @@
         
          <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
          <sonar.coverage.exclusions>**/*E2ETest.java</sonar.coverage.exclusions>
+         <sonar.sources>src/main/java</sonar.sources>
+        <sonar.tests>src/test/java</sonar.tests>
          
     </properties>
     
@@ -190,7 +192,7 @@
 					</execution>
 					<execution>
 						<id>report</id>
-						<phase>test</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
