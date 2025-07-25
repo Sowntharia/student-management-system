@@ -26,11 +26,11 @@ public class StudentManagementSystemApplication {
     @Bean
     public CommandLineRunner run(StudentRepository studentRepository) {
         return args -> {
-            /*Student student1 = new Student("Ranesh", "Fadatare", "ranesh@gmail.com");
+            Student student1 = new Student("Ranesh", "Fadatare", "ranesh@gmail.com");
             Student student2 = new Student("Sanjay", "Jadhav", "sanjay@gmail.com");
             Student student3 = new Student("Tony", "Fadatare", "tony@gmail.com");
 
-            studentRepository.saveAll(Arrays.asList(student1, student2, student3));*/
+            studentRepository.saveAll(Arrays.asList(student1, student2, student3));
             logger.info("Sample students saved successfully.");
         };
     }

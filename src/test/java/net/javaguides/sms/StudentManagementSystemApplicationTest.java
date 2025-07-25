@@ -23,8 +23,6 @@ class StudentManagementSystemApplicationTest
 	}     
 	@Test     
 	void contextLoadsAndInitializesStudents() {  
-		 Student student = new Student("Test", "Student", "test@student.com");
-		 studentRepository.save(student);
 		
 		List<Student> students = studentRepository.findAll();         
 		assertFalse(students.isEmpty());     
