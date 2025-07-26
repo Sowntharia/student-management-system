@@ -1,4 +1,4 @@
-name: CI with Code Coverage
+name: CI with Code Coverage and Mutation Testing
 
 on:
   push:
@@ -29,7 +29,10 @@ jobs:
           ${{ runner.os }}-maven-
 
     - name: Build with Maven and generate JaCoCo coverage
-      run: mvn clean verify
+      run: mvn clean verify jacoco:report
+
+    - name: Run PIT Mutation Testing
+      run: mvn org.pitest:pitest-maven:mutationCoverage
 
     - name: Upload coverage report to Codecov
       uses: codecov/codecov-action@v4
@@ -38,3 +41,15 @@ jobs:
         name: codecov-report
         flags: unit
         fail_ci_if_error: true
+
+    - name: Upload JaCoCo HTML Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: jacoco-report
+        path: target/site/jacoco/
+
+    - name: Upload PIT HTML Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: pit-report
+        path: target/pit-reports/

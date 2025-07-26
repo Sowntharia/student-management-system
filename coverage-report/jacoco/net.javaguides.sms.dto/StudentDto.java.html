@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StudentDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">student-management-system</a> &gt; <a href="index.source.html" class="el_package">net.javaguides.sms.dto</a> &gt; <span class="el_source">StudentDto.java</span></div><h1>StudentDto.java</h1><pre class="source lang-java linenums">package net.javaguides.sms.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public class StudentDto {
+
+	private Long id;
+	
+	@NotBlank(message = &quot;First name is requied&quot;)
+	private String firstName;
+	
+	@NotBlank(message = &quot;Last name is requied&quot;)
+	private String lastName;
+	
+	@NotBlank(message = &quot;Email is required&quot;)
+	@Email(message = &quot;Email should be valid&quot;)
+	private String email;
+	
+	//Constructors
+<span class="fc" id="L21">	public StudentDto() {}</span>
+	
+<span class="fc" id="L23">	public StudentDto(Long id, String firstName, String lastName, String email) {</span>
+<span class="fc" id="L24">		this.id = id;</span>
+<span class="fc" id="L25">		this.firstName = firstName;</span>
+<span class="fc" id="L26">		this.lastName = lastName;</span>
+<span class="fc" id="L27">		this.email = email;</span>
+<span class="fc" id="L28">	}</span>
+	
+<span class="fc" id="L30">	public StudentDto( String firstName, String lastName, String email) {</span>
+<span class="fc" id="L31">		this.firstName = firstName;</span>
+<span class="fc" id="L32">		this.lastName = lastName;</span>
+<span class="fc" id="L33">		this.email = email;</span>
+<span class="fc" id="L34">	}</span>
+	
+	
+	//Getters and setters
+	public Long getId() {
+<span class="fc" id="L39">		return id;</span>
+	}
+	
+	public void setId(Long id) {
+<span class="fc" id="L43">		this.id = id;</span>
+<span class="fc" id="L44">	}</span>
+	public String getFirstName() 
+	{
+<span class="fc" id="L47">		return firstName;</span>
+	}
+	public void setFirstName(String firstName) {
+<span class="fc" id="L50">		this.firstName = firstName;</span>
+<span class="fc" id="L51">	}</span>
+	
+	public String getLastName() 
+	{
+<span class="fc" id="L55">		return lastName;</span>
+	}
+	public void setLastName(String lastName) {
+<span class="fc" id="L58">		this.lastName = lastName;</span>
+<span class="fc" id="L59">	}</span>
+	public String getEmail() {
+<span class="fc" id="L61">		return email;</span>
+	}
+	public void setEmail(String email) {
+<span class="fc" id="L64">		this.email = email;</span>
+<span class="fc" id="L65">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

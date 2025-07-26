@@ -2,6 +2,7 @@ package net.javaguides.sms.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.javaguides.sms.entity.Student;
+import net.javaguides.sms.exception.StudentNotFoundException;
 import net.javaguides.sms.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -86,5 +87,14 @@ class StudentRestControllerTest {
 
         mockMvc.perform(delete("/api/students/1"))
                 .andExpect(status().isNoContent());
+    }
+    
+    @Test
+    void testDeleteNonExistingStudent() throws Exception {
+        Mockito.doThrow(new StudentNotFoundException("Student not found with ID: 99"))
+               .when(studentService).deleteStudentById(99L);
+
+        mockMvc.perform(delete("/api/students/99"))
+               .andExpect(status().isNotFound());
     }
 }

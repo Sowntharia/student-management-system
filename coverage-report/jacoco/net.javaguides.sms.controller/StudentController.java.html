@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StudentController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">student-management-system</a> &gt; <a href="index.source.html" class="el_package">net.javaguides.sms.controller</a> &gt; <span class="el_source">StudentController.java</span></div><h1>StudentController.java</h1><pre class="source lang-java linenums">package net.javaguides.sms.controller;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import net.javaguides.sms.dto.StudentDto;
+import net.javaguides.sms.service.StudentService;
+
+@Controller
+public class StudentController {
+	
+	private StudentService studentService;
+
+	public StudentController(StudentService studentService) {
+<span class="fc" id="L21">		super();</span>
+<span class="fc" id="L22">		this.studentService = studentService;</span>
+<span class="fc" id="L23">	}</span>
+	
+	
+	//Display list of students
+	
+	@GetMapping(&quot;/students&quot;)
+	public String listStudents(Model model) {
+<span class="fc" id="L30">		model.addAttribute(&quot;students&quot;, studentService.getAllStudents());</span>
+<span class="fc" id="L31">		return &quot;students&quot;;</span>
+		
+	}
+	
+	//Show form to create a new student
+	
+	@GetMapping(&quot;/students/new&quot;)
+	public String createStudentForm(Model model){
+		
+		//create student object to hold student form data
+<span class="fc" id="L41">		StudentDto student = new StudentDto();</span>
+<span class="fc" id="L42">		model.addAttribute(&quot;student&quot;, student);</span>
+<span class="fc" id="L43">		return &quot;create_student&quot;;</span>
+	}
+	
+	//Save student after form submission
+	
+	@PostMapping(&quot;/students&quot;)
+	public String saveStudent(@ModelAttribute(&quot;student&quot;) StudentDto studentDto) {
+		
+<span class="fc" id="L51">		studentService.saveStudent(studentDto);</span>
+<span class="fc" id="L52">		return &quot;redirect:/students&quot;;</span>
+		
+	}
+	
+	//Show form to edit an existing student
+	
+	@GetMapping(&quot;/students/edit/{id}&quot;)
+	public String editStudentForm(@PathVariable Long id, Model model) {
+<span class="fc" id="L60">		StudentDto studentDto = studentService.getStudentById(id);</span>
+<span class="fc" id="L61">		model.addAttribute(&quot;student&quot;, studentDto);</span>
+<span class="fc" id="L62">		return &quot;edit_student&quot;;</span>
+	}
+	
+	//Update student after form submission
+	
+	@PostMapping(&quot;/students/{id}&quot; )
+	public String updateStudent(@PathVariable Long id,
+			                    @ModelAttribute(&quot;student&quot;) StudentDto studentDto) {
+		
+	   //save updated student object
+<span class="fc" id="L72">		studentService.updateStudent(id, studentDto);</span>
+<span class="fc" id="L73">        return &quot;redirect:/students&quot;;	</span>
+		
+	}
+	
+	//Securely delete a student 
+	
+	@PostMapping(&quot;/students/{id}/delete&quot;)
+	public String deleteStudent(@PathVariable Long id) {
+<span class="fc" id="L81">		studentService.deleteStudentById(id);</span>
+<span class="fc" id="L82">		return &quot;redirect:/students&quot;;</span>
+		
+	}
+	
+	// REST API to get student by ID (for testing purposes)
+	@GetMapping(&quot;/students/{id}&quot;)
+	public @ResponseBody StudentDto getStudentById(@PathVariable Long id) {
+<span class="fc" id="L89">	    return studentService.getStudentById(id);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
