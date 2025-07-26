@@ -1,8 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-student-management-system,net.javaguides.sms.service.impl,StudentServiceImpl,0,134,0,2,0,35,0,11,0,10
-student-management-system,net.javaguides.sms.exception,StudentNotFoundException,0,9,0,0,0,4,0,2,0,2
-student-management-system,net.javaguides.sms.exception,GlobalExceptionHandler,0,19,0,0,0,4,0,2,0,2
-student-management-system,net.javaguides.sms.controller,StudentController,0,64,0,0,0,18,0,8,0,8
-student-management-system,net.javaguides.sms,StudentManagementSystemApplication,5,4,0,0,2,2,1,2,1,2
-student-management-system,net.javaguides.sms.entity,Student,28,53,4,0,5,20,4,11,2,11
-student-management-system,net.javaguides.sms.dto,StudentDto,0,58,0,0,0,24,0,11,0,11
