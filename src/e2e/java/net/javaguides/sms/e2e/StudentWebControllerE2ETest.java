@@ -1,4 +1,4 @@
-package net.javaguides.sms.controllers;
+package net.javaguides.sms.e2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +21,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class StudentWebControllerE2ETest {
+public class StudentWebControllerE2ETest {
+
+
 
     @LocalServerPort
     private int port;
