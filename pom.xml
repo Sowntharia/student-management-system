@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.7</version>
+        <version>3.4.8</version>
         <relativePath/>
     </parent>
 
@@ -20,10 +20,11 @@
 
     <properties>
         <junit-jupiter-version46>1.19.3</junit-jupiter-version46>
-		<jacoco-maven-plugin-artifactId>jacoco-maven-plugin</jacoco-maven-plugin-artifactId>
+        <jacoco-maven-plugin-artifactId>jacoco-maven-plugin</jacoco-maven-plugin-artifactId>
         <mockito-core-version>5.10.0</mockito-core-version>
         <java.version>17</java.version>
         <junit-jupiter-version>5.11.4</junit-jupiter-version>
+        <project.basedir>C:\Users\sownt\Documents\workspace-spring-tool-suite-4-4.22.1.RELEASE\student-management-system</project.basedir>
         
         <!-- SonarCloud configuration -->
         <sonar.projectKey>Sowntharia_student-management-system</sonar.projectKey>
