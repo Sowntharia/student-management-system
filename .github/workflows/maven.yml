@@ -31,5 +31,8 @@ jobs:
           nohup mvn spring-boot:run -Dspring-boot.run.profiles=test > target/app.log 2>&1 &
           sleep 25
 
-      - name: Run Selenium and E2E Tests
-        run: mvn test -Dspring.profiles.active=test
+      - name: Run E2E Selenium Tests (Failsafe)
+        run: mvn failsafe:integration-test failsafe:verify -Dspring.profiles.active=test
+
+      - name: Stop Spring Boot App
+        run: pkill -f 'spring-boot:run' || true

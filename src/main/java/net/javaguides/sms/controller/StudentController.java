@@ -5,7 +5,10 @@ import net.javaguides.sms.service.StudentService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class StudentController {
@@ -18,7 +21,6 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    
     @GetMapping("/students")
     public String listStudents(Model model) {
         model.addAttribute("students", studentService.getAllStudents());
@@ -33,7 +35,11 @@ public class StudentController {
 
     
     @PostMapping("/students")
-    public String saveStudent(@ModelAttribute("student") Student student) {
+    public String saveStudent(@ModelAttribute("student") @Valid Student student,
+            BindingResult result) {
+                if (result.hasErrors()) {
+                    return "create_student";
+                }
         studentService.saveStudent(student);
         return REDIRECT_STUDENTS;
     }

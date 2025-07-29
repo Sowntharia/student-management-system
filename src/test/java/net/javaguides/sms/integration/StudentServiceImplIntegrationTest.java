@@ -28,7 +28,7 @@ class StudentServiceImplIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        studentRepository.deleteAll(); // Clean DB before each test
+        studentRepository.deleteAll(); 
 
         testStudent = new Student();
         testStudent.setFirstName("Alice");

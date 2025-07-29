@@ -23,8 +23,6 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StudentWebControllerE2ETest {
 
-
-
     @LocalServerPort
     private int port;
 
@@ -37,20 +35,20 @@ public class StudentWebControllerE2ETest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
 
-        // Detect if running in GitHub Actions CI (Linux headless)
+        // Detect if running in GitHub Actions CI
         if (System.getenv("GITHUB_ACTIONS") != null) {
-            options.addArguments("--headless=new"); // required for Chrome 109+
+            options.addArguments("--headless=new");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--disable-gpu");
 
-            // Isolated Chrome profile avoids CI crashes
+            
             Path tempUserDataDir = Files.createTempDirectory("chrome-profile");
             options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath());
         }
 
         driver = new ChromeDriver(options);
-        driver.manage().window().setSize(new Dimension(1280, 1024)); // fixed size for headless mode
+        driver.manage().window().setSize(new Dimension(1280, 1024));
     }
 
     @BeforeEach
