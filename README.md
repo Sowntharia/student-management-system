@@ -62,11 +62,18 @@ docker run -p 8080:8080 studnet-management-system
 
 [![Maven CI for Spring Boot + Selenium](https://github.com/Sowntharia/student-management-system/actions/workflows/maven.yml/badge.svg)](https://github.com/Sowntharia/student-management-system/actions/workflows/maven.yml)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Sowntharia_student-management-system&metric=alert_status)](https://sonarcloud.io/dashboard?id=Sowntharia_student-management-system)
+
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Sowntharia_student-management-system&metric=coverage)](https://sonarcloud.io/dashboard?id=Sowntharia_student-management-system)
 
-[![SonarCloud](https://github.com/Sowntharia/student-management-system/actions/workflows/sonar.yml/badge.svg)](https://github.com/Sowntharia/student-management-system/actions/workflows/sonar.yml)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Sowntharia_student-management-system&metric=code_smells)](https://sonarcloud.io/dashboard?id=Sowntharia_student-management-system)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Sowntharia_student-management-system&metric=alert_status)](https://sonarcloud.io/dashboard?id=Sowntharia_student-management-system)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Sowntharia_student-management-system&metric=bugs)](https://sonarcloud.io/dashboard?id=Sowntharia_student-management-system)
+
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Sowntharia_student-management-system&metric=security_rating)](https://sonarcloud.io/dashboard?id=Sowntharia_student-management-system)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Sowntharia_student-management-system&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=Sowntharia_student-management-system)
+
 
 
 
