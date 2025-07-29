@@ -40,7 +40,7 @@ class StudentServiceImplIntegrationTest {
 
     @Test
     void shouldSaveStudentToDatabase() {
-        Student newStudent = new Student("Bob", "Builder", "bob@example.com");
+        Student newStudent = new Student(null, "Bob", "Builder", "bob@example.com");
 
         Student saved = studentService.saveStudent(newStudent);
 
@@ -66,7 +66,7 @@ class StudentServiceImplIntegrationTest {
 
     @Test
     void shouldUpdateStudentDetails() {
-        Student updatedInfo = new Student("Alice", "Johnson", "updated@example.com");
+        Student updatedInfo = new Student(null, "Alice", "Johnson", "updated@example.com");
 
         Student updated = studentService.updateStudent(testStudent.getId(), updatedInfo);
 
@@ -85,7 +85,7 @@ class StudentServiceImplIntegrationTest {
 
     @Test
     void shouldThrowWhenStudentNotFoundForUpdate() {
-        Student updateData = new Student("X", "Y", "z@example.com");
+        Student updateData = new Student(999L, "X", "Y", "z@example.com");
 
         assertThatThrownBy(() -> studentService.updateStudent(999L, updateData))
             .isInstanceOf(StudentNotFoundException.class)
