@@ -62,7 +62,7 @@ docker run -p 8080:8080 studnet-management-system
 
 [![Maven CI for Spring Boot + Selenium](https://github.com/Sowntharia/student-management-system/actions/workflows/maven.yml/badge.svg)](https://github.com/Sowntharia/student-management-system/actions/workflows/maven.yml)
 
-[![CI with Code Coverage and Mutation Testing](https://github.com/Sowntharia/student-management-system/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Sowntharia/student-management-system/actions/workflows/ci.yml)(https://app.codecov.io/gh/Sowntharia/student-management-system)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Sowntharia_student-management-system&metric=coverage)](https://sonarcloud.io/dashboard?id=Sowntharia_student-management-system)
 
 [![SonarCloud](https://github.com/Sowntharia/student-management-system/actions/workflows/sonar.yml/badge.svg)](https://github.com/Sowntharia/student-management-system/actions/workflows/sonar.yml)
 
