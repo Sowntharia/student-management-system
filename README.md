@@ -66,6 +66,7 @@ docker run -p 8080:8080 studnet-management-system
 
 [![SonarCloud](https://github.com/Sowntharia/student-management-system/actions/workflows/sonar.yml/badge.svg)](https://github.com/Sowntharia/student-management-system/actions/workflows/sonar.yml)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Sowntharia_student-management-system&metric=alert_status)](https://sonarcloud.io/dashboard?id=Sowntharia_student-management-system)
 
 
 
