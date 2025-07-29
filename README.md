@@ -58,6 +58,10 @@ bash
 docker built -t studnet-management-system .
 docker run -p 8080:8080 studnet-management-system
 
+#Student Management System
+[![Maven CI for Spring Boot + Selenium](https://github.com/Sowntharia/student-management-system/actions/workflows/maven.yml/badge.svg)](https://github.com/Sowntharia/student-management-system/actions/workflows/maven.yml)
+[![CI with Code Coverage and Mutation Testing](https://github.com/Sowntharia/student-management-system/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Sowntharia/student-management-system/actions/workflows/ci.yml)
+[![SonarCloud](https://github.com/Sowntharia/student-management-system/actions/workflows/sonar.yml/badge.svg)](https://github.com/Sowntharia/student-management-system/actions/workflows/sonar.yml)
 
 
 
