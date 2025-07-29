@@ -37,11 +37,18 @@ public class StudentWebControllerE2ETest {
 
         // Detect if running in GitHub Actions CI
         if (System.getenv("GITHUB_ACTIONS") != null) {
+<<<<<<< HEAD
             options.addArguments("--headless=new");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--disable-gpu");
 
+=======
+            options.addArguments("--headless=new"); 
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+>>>>>>> ee030daf1917cfb773c0c18e93541b817ade433f
             
             Path tempUserDataDir = Files.createTempDirectory("chrome-profile");
             options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath());
