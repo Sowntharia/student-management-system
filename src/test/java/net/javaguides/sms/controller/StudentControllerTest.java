@@ -45,7 +45,6 @@ import net.javaguides.sms.service.StudentService;
 	void setup() {
 		MockitoAnnotations.openMocks(this);
 		
-		//Add ThymeleafViewResolver mock
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		viewResolver.setPrefix("/templates/");
 		viewResolver.setSuffix(".html");
