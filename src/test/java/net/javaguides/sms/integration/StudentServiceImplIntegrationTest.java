@@ -19,10 +19,8 @@ import static org.assertj.core.api.Assertions.*;
 @ActiveProfiles("testcontainers")
 @SpringBootTest
 public class StudentServiceImplIntegrationTest extends BaseTestContainer{
-
     @Autowired
     private StudentService studentService;
-
     @Autowired
     private StudentRepository studentRepository;
 
