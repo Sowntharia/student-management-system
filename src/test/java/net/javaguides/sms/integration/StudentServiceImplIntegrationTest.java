@@ -1,9 +1,11 @@
 package net.javaguides.sms.integration;
 
+import net.javaguides.sms.BaseTestContainer;
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.exception.StudentNotFoundException;
 import net.javaguides.sms.repository.StudentRepository;
 import net.javaguides.sms.service.StudentService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@ActiveProfiles("test")
+@ActiveProfiles("testcontainers")
 @SpringBootTest
-class StudentServiceImplIntegrationTest {
+public class StudentServiceImplIntegrationTest extends BaseTestContainer{
 
     @Autowired
     private StudentService studentService;
@@ -28,13 +30,9 @@ class StudentServiceImplIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        studentRepository.deleteAll(); 
+        studentRepository.deleteAll();
 
-        testStudent = new Student();
-        testStudent.setFirstName("Alice");
-        testStudent.setLastName("Walker");
-        testStudent.setEmail("alice.walker@example.com");
-
+        testStudent = new Student("Alice", "Walker", "alice.walker@example.com");
         testStudent = studentService.saveStudent(testStudent);
     }
 
@@ -80,7 +78,7 @@ class StudentServiceImplIntegrationTest {
         studentService.deleteStudentById(id);
 
         assertThatThrownBy(() -> studentService.getStudentById(id))
-            .isInstanceOf(StudentNotFoundException.class);
+                .isInstanceOf(StudentNotFoundException.class);
     }
 
     @Test
@@ -88,14 +86,14 @@ class StudentServiceImplIntegrationTest {
         Student updateData = new Student(999L, "X", "Y", "z@example.com");
 
         assertThatThrownBy(() -> studentService.updateStudent(999L, updateData))
-            .isInstanceOf(StudentNotFoundException.class)
-            .hasMessageContaining("Student not found with ID: 999");
+                .isInstanceOf(StudentNotFoundException.class)
+                .hasMessageContaining("Student not found with ID: 999");
     }
 
     @Test
     void shouldThrowWhenStudentNotFoundForDelete() {
         assertThatThrownBy(() -> studentService.deleteStudentById(888L))
-            .isInstanceOf(StudentNotFoundException.class)
-            .hasMessageContaining("Student not found with ID: 888");
+                .isInstanceOf(StudentNotFoundException.class)
+                .hasMessageContaining("Student not found with ID: 888");
     }
 }

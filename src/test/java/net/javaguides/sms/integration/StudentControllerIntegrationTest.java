@@ -1,16 +1,9 @@
 package net.javaguides.sms.integration;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
+import net.javaguides.sms.BaseTestContainer;
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.repository.StudentRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +13,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-@ActiveProfiles("test")
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@ActiveProfiles("testcontainers")
 @SpringBootTest
 @AutoConfigureMockMvc
-class StudentControllerIntegrationTest {
+public class StudentControllerIntegrationTest extends BaseTestContainer{
 
     @Autowired
     private MockMvc mockMvc;

@@ -3,6 +3,7 @@ package net.javaguides.sms.controller;
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.service.StudentService;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -67,5 +68,18 @@ public class StudentController {
     @GetMapping("/students/{id}")
     public @ResponseBody Student getStudentById(@PathVariable Long id) {
         return studentService.getStudentById(id);
+    }
+    
+    @PutMapping(value = "/students/{id}")
+    public @ResponseBody ResponseEntity<Student> updateStudentApi(@PathVariable Long id,
+                                                                  @RequestBody @Valid Student student) {
+        Student updated = studentService.updateStudent(id, student);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/students/{id}")
+    public @ResponseBody ResponseEntity<Void> deleteStudentApi(@PathVariable Long id) {
+        studentService.deleteStudentById(id);
+        return ResponseEntity.noContent().build();
     }
 }

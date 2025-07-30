@@ -6,8 +6,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -150,5 +155,31 @@ import net.javaguides.sms.service.StudentService;
 	    verify(studentService).getStudentById(1L);
 	}
 	
+	@Test
+	void shouldUpdateStudentViaApi() throws Exception {
+	    given(studentService.updateStudent(any(Long.class), any(Student.class)))
+	        .willReturn(new Student("Jane", "Smith", "jane@example.com"));
+
+	    mockMvc.perform(put("/students/1")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content("{\"firstName\":\"Jane\",\"lastName\":\"Smith\",\"email\":\"jane@example.com\"}"))
+	        .andExpect(status().isOk())
+	        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+	        .andExpect(jsonPath("$.firstName").value("Jane"))
+	        .andExpect(jsonPath("$.lastName").value("Smith"))
+	        .andExpect(jsonPath("$.email").value("jane@example.com"));
+
+	    verify(studentService).updateStudent(any(Long.class), any(Student.class));
+	}
+
+	    @Test
+	    void shouldDeleteStudentViaApi() throws Exception {
+	        doNothing().when(studentService).deleteStudentById(1L);
+
+	        mockMvc.perform(delete("/students/1"))
+	            .andExpect(status().isNoContent());
+
+	        verify(studentService).deleteStudentById(1L);
+	    }
 	
 }

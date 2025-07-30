@@ -35,14 +35,11 @@ public class StudentWebControllerE2ETest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
 
-        // Detect if running in GitHub Actions CI
         if (System.getenv("GITHUB_ACTIONS") != null) {
-
             options.addArguments("--headless=new");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--disable-gpu");
-            
+            options.addArguments("--disable-gpu"); 
             Path tempUserDataDir = Files.createTempDirectory("chrome-profile");
             options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath());
         }

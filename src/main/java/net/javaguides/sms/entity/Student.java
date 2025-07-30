@@ -22,11 +22,9 @@ public class Student {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // No-arg constructor (required by JPA)
     public Student() {
     }
 
-    // Constructor without ID (used when creating a new student)
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,7 +38,7 @@ public class Student {
         this.email = email;
     }
 
-    // Getters and Setters
+    
 
     public Long getId() {
         return id;

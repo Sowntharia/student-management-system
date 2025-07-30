@@ -1,11 +1,13 @@
 package net.javaguides.sms;
 
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
+@ActiveProfiles("testcontainers")
 @SuppressWarnings("resource")
 public abstract class BaseTestContainer {
 
@@ -18,9 +20,8 @@ public abstract class BaseTestContainer {
                 .withDatabaseName("testdb")
                 .withUrlParam("allowPublicKeyRetrieval", "true")
                 .withUrlParam("useSSL", "false");
-            MY_SQL_CONTAINER.start();
-        }
-
+        MY_SQL_CONTAINER.start();
+    }
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
