@@ -30,8 +30,13 @@ public class StudentManagementSystemApplication {
     }
 
     private void saveIfNotExists(StudentRepository studentRepository, String firstName, String lastName, String email) {
-        if (!studentRepository.existsByEmail(email)) {
-            studentRepository.save(new Student(firstName, lastName, email));
+        if (email != null && !email.isBlank() && !studentRepository.existsByEmail(email)) {
+            Student student = new Student(firstName, lastName, email);
+            studentRepository.save(student);
+            logger.info("Student saved: " + student);
+        } else {
+            logger.info("Student with email " + email + " already exists or email is invalid.");
         }
     }
+
 }
