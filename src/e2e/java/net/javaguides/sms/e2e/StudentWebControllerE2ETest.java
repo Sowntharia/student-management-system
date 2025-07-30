@@ -5,16 +5,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.UUID;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.*;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.client.RestTemplate;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -29,24 +33,25 @@ public class StudentWebControllerE2ETest {
     private static WebDriver driver;
     private WebDriverWait wait;
     private String baseUrl;
-
     @BeforeAll
     static void setupClass() throws Exception {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
 
-        if (System.getenv("GITHUB_ACTIONS") != null) {
-            options.addArguments("--headless=new");
+        if (System.getenv("GITHUB_ACTIONS") != null || System.getenv("CI") != null) {
+            options.addArguments("--headless");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--disable-gpu"); 
-            Path tempUserDataDir = Files.createTempDirectory("chrome-profile");
+            options.addArguments("--remote-allow-origins=*");
+
+            Path tempUserDataDir = Files.createTempDirectory("chrome-profile" + UUID.randomUUID());
             options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath());
         }
 
         driver = new ChromeDriver(options);
         driver.manage().window().setSize(new Dimension(1280, 1024));
     }
+
 
     @BeforeEach
     void setupTest() {
@@ -78,11 +83,13 @@ public class StudentWebControllerE2ETest {
 
     @Test
     @Order(2)
-    void shouldUpdateStudent() {
+    void shouldUpdateStudent() throws JSONException {
+        String email = postStudent("Update", "User", "update@test.com");
+
         driver.get(baseUrl + "/students");
 
         WebElement row = wait.until(ExpectedConditions.presenceOfElementLocated(
-            By.xpath("//tr[td[contains(text(),'e2e@test.com')]]")));
+            By.xpath("//tr[td[contains(text(),'" + email + "')]]")));
 
         WebElement editButton = row.findElement(By.cssSelector("a.edit-button"));
         editButton.click();
@@ -99,17 +106,35 @@ public class StudentWebControllerE2ETest {
 
     @Test
     @Order(3)
-    void shouldDeleteStudent() {
+    void shouldDeleteStudent() throws JSONException {
+        String email = postStudent("Delete", "User", "delete@test.com");
+
         driver.get(baseUrl + "/students");
 
         WebElement deleteForm = wait.until(ExpectedConditions.presenceOfElementLocated(
-            By.xpath("//tr[td[contains(text(),'e2e@test.com')]]//form[contains(@class,'delete-form')]")));
+            By.xpath("//tr[td[contains(text(),'" + email + "')]]//form[contains(@class,'delete-form')]")));
 
         deleteForm.submit();
 
         wait.until(ExpectedConditions.stalenessOf(deleteForm));
         driver.navigate().refresh();
 
-        assertThat(driver.getPageSource()).doesNotContain("e2e@test.com");
+        assertThat(driver.getPageSource()).doesNotContain(email);
+    }
+
+    private String postStudent(String firstName, String lastName, String email) throws JSONException {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        JSONObject body = new JSONObject();
+        body.put("firstName", firstName);
+        body.put("lastName", lastName);
+        body.put("email", email);
+
+        HttpEntity<String> entity = new HttpEntity<>(body.toString(), headers);
+        restTemplate.postForEntity(baseUrl + "/api/students", entity, String.class);
+
+        return email;
     }
 }
