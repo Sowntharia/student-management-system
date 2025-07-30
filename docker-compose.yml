@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   mysql:
     image: mysql:8
@@ -18,7 +20,10 @@ services:
       retries: 5
 
   app:
-    build: .
+    build:
+      context: .
+      target: runtime
+    container_name: student-management-system-app
     depends_on:
       mysql:
         condition: service_healthy
@@ -28,6 +33,20 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/studentdb
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
+
+  test-runner:
+    build:
+      context: .
+      target: e2e-tests
+    container_name: student-e2e-runner
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/studentdb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    command: mvn verify -P e2e-tests
 
 volumes:
   mysql-data:
