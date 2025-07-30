@@ -7,13 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
-/**
- * Entry point of the Student Management System application.
- * This class bootstraps the Spring Boot application.
- */
 @SpringBootApplication
 public class StudentManagementSystemApplication {
 
@@ -26,12 +21,17 @@ public class StudentManagementSystemApplication {
     @Bean
     public CommandLineRunner run(StudentRepository studentRepository) {
         return args -> {
-            Student student1 = new Student("Ranesh", "Fadatare", "ranesh@gmail.com");
-            Student student2 = new Student("Sanjay", "Jadhav", "sanjay@gmail.com");
-            Student student3 = new Student("Tony", "Fadatare", "tony@gmail.com");
+            saveIfNotExists(studentRepository, "Ranesh", "Fadatare", "ranesh@gmail.com");
+            saveIfNotExists(studentRepository, "Sanjay", "Jadhav", "sanjay@gmail.com");
+            saveIfNotExists(studentRepository, "Tony", "Fadatare", "tony@gmail.com");
 
-            studentRepository.saveAll(Arrays.asList(student1, student2, student3));
-            logger.info("Sample students saved successfully.");
+            logger.info("Sample students checked and saved if not present.");
         };
+    }
+
+    private void saveIfNotExists(StudentRepository studentRepository, String firstName, String lastName, String email) {
+        if (!studentRepository.existsByEmail(email)) {
+            studentRepository.save(new Student(firstName, lastName, email));
+        }
     }
 }
