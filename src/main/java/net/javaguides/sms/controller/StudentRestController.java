@@ -2,7 +2,6 @@ package net.javaguides.sms.controller;
 
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/students")
 public class StudentRestController {
 
-    @Autowired
+    
     private StudentService studentService;
+    
+    public StudentRestController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @PostMapping
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
