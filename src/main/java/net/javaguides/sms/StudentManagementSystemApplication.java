@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @SpringBootApplication
@@ -33,10 +34,14 @@ public class StudentManagementSystemApplication {
         if (email != null && !email.isBlank() && !studentRepository.existsByEmail(email)) {
             Student student = new Student(firstName, lastName, email);
             studentRepository.save(student);
-            logger.info(String.format("Student saved: %s", student));
+
+            if (logger.isLoggable(Level.INFO)) {
+                logger.info("Student saved: " + student);
+            }
         } else {
-        	logger.info(String.format("Student with email '%s' already exists or email is invalid.", email));
+            if (logger.isLoggable(Level.WARNING)) {
+                logger.warning("Student with email '" + email + "' already exists or email is invalid.");
+            }
         }
     }
-
 }
