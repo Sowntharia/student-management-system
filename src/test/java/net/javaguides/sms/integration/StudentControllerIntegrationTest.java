@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("testcontainers")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class StudentControllerIntegrationTest extends BaseTestContainer{
+class StudentControllerIntegrationTest extends BaseTestContainer{
 
     @Autowired
     private MockMvc mockMvc;
