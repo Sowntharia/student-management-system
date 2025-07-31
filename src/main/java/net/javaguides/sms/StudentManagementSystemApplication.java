@@ -38,9 +38,9 @@ public class StudentManagementSystemApplication {
         if (!studentRepository.existsByEmail(email)) {
             Student student = new Student(firstName, lastName, email);
             studentRepository.save(student);
-            logger.info("Inserted new student: " + email);
+            logger.info("Inserted new student: {}" + email);
         } else {
-            logger.warning("Skipped existing student: " + email);
+            logger.warning("Skipped existing student: {}" + email);
         }
     }
 }
