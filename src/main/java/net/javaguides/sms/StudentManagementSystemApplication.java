@@ -2,12 +2,14 @@ package net.javaguides.sms;
 
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.repository.StudentRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.logging.Logger;
 
 /**
  * Entry point of the Student Management System application.
@@ -17,7 +19,7 @@ import java.util.logging.Logger;
 @SpringBootApplication
 public class StudentManagementSystemApplication {
 
-    private static final Logger logger = Logger.getLogger(StudentManagementSystemApplication.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(StudentManagementSystemApplication.class.getName());
 
     public static void main(String[] args) {
         SpringApplication.run(StudentManagementSystemApplication.class, args);
@@ -38,9 +40,9 @@ public class StudentManagementSystemApplication {
         if (!studentRepository.existsByEmail(email)) {
             Student student = new Student(firstName, lastName, email);
             studentRepository.save(student);
-            logger.info("Inserted new student: {}" + email);
+            logger.info("Inserted new student: {}", email); 
         } else {
-            logger.warning("Skipped existing student: {}" + email);
+            logger.warn("Skipped existing student: {}", email); 
         }
     }
 }
