@@ -7,10 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Entry point of the Student Management System application.
+ * This class bootstraps the Spring Boot application and inserts
+ * sample students if they do not already exist.
+ */
 @SpringBootApplication
 public class StudentManagementSystemApplication {
 
@@ -23,31 +26,21 @@ public class StudentManagementSystemApplication {
     @Bean
     public CommandLineRunner run(StudentRepository studentRepository) {
         return args -> {
-            List<Student> sampleStudents = List.of(
-                new Student("Ranesh", "Fadatare", "ranesh@gmail.com"),
-                new Student("Sanjay", "Jadhav", "sanjay@gmail.com"),
-                new Student("Tony", "Fadatare", "tony@gmail.com")
-            );
+            insertIfNotExists(studentRepository, "Ranesh", "Fadatare", "ranesh@gmail.com");
+            insertIfNotExists(studentRepository, "Sanjay", "Jadhav", "sanjay@gmail.com");
+            insertIfNotExists(studentRepository, "Tony", "Fadatare", "tony@gmail.com");
 
-            for (Student student : sampleStudents) {
-                saveIfNotExists(studentRepository, student);
-            }
-
-            logger.info("Sample students checked and saved if not present.");
+            logger.info("Sample students checked and inserted only if not present.");
         };
     }
 
-    private void saveIfNotExists(StudentRepository studentRepository, Student student) {
-        String email = student.getEmail();
-        if (email != null && !email.isBlank() && !studentRepository.existsByEmail(email)) {
+    private void insertIfNotExists(StudentRepository studentRepository, String firstName, String lastName, String email) {
+        if (!studentRepository.existsByEmail(email)) {
+            Student student = new Student(firstName, lastName, email);
             studentRepository.save(student);
-            if (logger.isLoggable(Level.INFO)) {
-                logger.info("Student saved: " + student);
-            }
+            logger.info("Inserted new student: " + email);
         } else {
-            if (logger.isLoggable(Level.WARNING)) {
-                logger.warning("Student with email '" + email + "' already exists or email is invalid.");
-            }
+            logger.warning("Skipped existing student: " + email);
         }
     }
 }

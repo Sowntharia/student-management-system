@@ -21,11 +21,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import net.javaguides.sms.BaseTestContainer;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class StudentWebControllerE2ETest {
+public class StudentWebControllerE2ETest extends BaseTestContainer {
 
     @LocalServerPort
     private int port;
@@ -38,25 +39,24 @@ public class StudentWebControllerE2ETest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
 
-        if (System.getenv("GITHUB_ACTIONS") != null || System.getenv("CI") != null) {
-            options.addArguments("--headless");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--remote-allow-origins=*");
 
-            Path tempUserDataDir = Files.createTempDirectory("chrome-profile" + UUID.randomUUID());
-            options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath());
-        }
+        Path tempUserDataDir = Files.createTempDirectory("chrome-profile-" + UUID.randomUUID());
+        options.addArguments("--user-data-dir=" + tempUserDataDir.toAbsolutePath());
 
         driver = new ChromeDriver(options);
         driver.manage().window().setSize(new Dimension(1280, 1024));
     }
 
 
+
     @BeforeEach
     void setupTest() {
         baseUrl = "http://localhost:" + port;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
     @AfterAll
@@ -133,8 +133,10 @@ public class StudentWebControllerE2ETest {
         body.put("email", email);
 
         HttpEntity<String> entity = new HttpEntity<>(body.toString(), headers);
-        restTemplate.postForEntity(baseUrl + "/api/students", entity, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl + "/api/students", entity, String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         return email;
     }
+
 }

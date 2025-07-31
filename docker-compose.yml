@@ -42,10 +42,15 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    volumes:
+      - .:/app  
+      - /var/run/docker.sock:/var/run/docker.sock     
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/studentdb
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
+      SPRING_PROFILES_ACTIVE: test
+      HEADLESS_CHROME: "true"
     command: mvn verify -P e2e-tests
 
 volumes:

@@ -10,7 +10,8 @@ import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.repository.StudentRepository; 
 @ActiveProfiles("test") 
 @SpringBootTest 
-class StudentManagementSystemApplicationTest {     
+class StudentManagementSystemApplicationTest 
+{     
 	@Autowired     
 	private StudentRepository studentRepository;     
 	@Test     

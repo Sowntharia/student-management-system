@@ -285,7 +285,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Build helper plugin to inc;ude E2E sources -->
+            <!-- Build helper plugin to include E2E sources -->
              <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -317,9 +317,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
         </profile>
-
-       
-   <profile>
+     <profile>
         <id>e2e-tests</id>
         <activation>
         <activeByDefault>false</activeByDefault>
@@ -327,7 +325,7 @@
            <properties>
                 <spring.profiles.active>test</spring.profiles.active>
            </properties>
-   </profile>
-</profiles>
-</project>
+      </profile>
+      </profiles>
+      </project>
     

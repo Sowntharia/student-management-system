@@ -9,15 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import net.javaguides.sms.BaseTestContainer;
 import net.javaguides.sms.entity.Student;
-
-@ActiveProfiles("testcontainers")
 @SpringBootTest
-class StudentRepositoryTest extends BaseTestContainer {
+@ActiveProfiles("test")
+class StudentRepositoryTest {
     @Autowired
     private StudentRepository studentRepository;
     @Test
+    
     void testSaveStudent() {
         
         Student student = new Student("John", "Doe", "john@example.com");
@@ -29,6 +28,7 @@ class StudentRepositoryTest extends BaseTestContainer {
     }
 
     @Test
+    
     void testFindByFirstName() {
         Student student1 = new Student("Alex", "Brown", "alex1@example.com");
         Student student2 = new Student("Alex", "Smith", "alex2@example.com");
